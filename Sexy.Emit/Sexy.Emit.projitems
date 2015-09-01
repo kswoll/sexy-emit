@@ -9,20 +9,34 @@
     <Import_RootNamespace>Sexy.Emit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitTypeKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssemblyBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitFieldBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitIl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMember.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitMethodBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitParameterBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitTypeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssemblyBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionEmitTypeAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionIl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMethodAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionOpCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionFieldBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMember.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMethodBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeBuilderExtensions.cs" />

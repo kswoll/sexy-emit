@@ -1,6 +1,6 @@
 ﻿namespace Sexy.Emit
 {
-    public interface IEmitFieldBuilder
+    public interface IEmitFieldBuilder : IEmitField
     {
     }
 }

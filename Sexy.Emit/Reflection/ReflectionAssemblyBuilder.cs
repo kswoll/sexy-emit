@@ -8,8 +8,8 @@ namespace Sexy.Emit.Reflection
 {
     public class ReflectionAssemblyBuilder : ReflectionAssembly, IEmitAssemblyBuilder
     {
-        private readonly AssemblyBuilder assemblyBuilder;
-        private readonly ModuleBuilder moduleBuilder;
+        public AssemblyBuilder AssemblyBuilder { get; }
+        public ModuleBuilder ModuleBuilder { get; }
 
         public static ReflectionAssemblyBuilder Create(string name)
         {
@@ -20,20 +20,20 @@ namespace Sexy.Emit.Reflection
 
         private ReflectionAssemblyBuilder(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder) : base(assemblyBuilder)
         {
-            this.assemblyBuilder = assemblyBuilder;
-            this.moduleBuilder = moduleBuilder;
+            AssemblyBuilder = assemblyBuilder;
+            ModuleBuilder = moduleBuilder;
         }
 
         public IEnumerable<IEmitTypeBuilder> TypeBuilders
         {
-            get { return moduleBuilder.GetTypes().Select(x => new ReflectionTypeBuilder((TypeBuilder)x)); }
+            get { return ModuleBuilder.GetTypes().Select(x => new ReflectionTypeBuilder((TypeBuilder)x)); }
         }
 
-        IEmitTypeBuilder IEmitAssemblyBuilder.DefineType(string name, EmitTypeAttributes typeAttributes) => DefineType(name, typeAttributes);
+        IEmitTypeBuilder IEmitAssemblyBuilder.DefineType(string name, EmitTypeKind kind, EmitVisibility visibility, bool isAbstract, bool isSealed) => DefineType(name, kind, visibility, isAbstract, isSealed);
 
-        public ReflectionTypeBuilder DefineType(string name, EmitTypeAttributes typeAttributes = 0)
+        public ReflectionTypeBuilder DefineType(string name, EmitTypeKind kind = EmitTypeKind.Class, EmitVisibility visibility = EmitVisibility.Public, bool isAbstract = false, bool isSealed = false)
         {
-            var typeBuilder = moduleBuilder.DefineType(name, typeAttributes.ToTypeAttributes(false));
+            var typeBuilder = ModuleBuilder.DefineType(name, ReflectionTypeAttributes.ToTypeAttributes(kind, visibility, false, isAbstract, isSealed));
             return new ReflectionTypeBuilder(typeBuilder);
         }
     }

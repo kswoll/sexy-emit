@@ -2,7 +2,7 @@
 
 namespace Sexy.Emit.Reflection
 {
-    public class ReflectionField : IEmitField
+    public class ReflectionField : ReflectionMember, IEmitField
     {
         private readonly FieldInfo field;
 
@@ -11,6 +11,7 @@ namespace Sexy.Emit.Reflection
             this.field = field;
         }
 
+        public FieldInfo Field => field;
         public string Name => field.Name;
         public IEmitType FieldType => new ReflectionType(field.FieldType);
     }
