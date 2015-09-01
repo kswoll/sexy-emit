@@ -51,10 +51,24 @@ namespace SexyEmit.Tests.Reflection
             method.Il.Emit(EmitOpCode.Ret);
 
             var type = typeBuilder.CreateType();
-            var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            Assert.IsNotNull(methodInfo);
+            Assert.IsTrue(methodInfo.IsPrivate);
+        }
+
+        [Test]
+        public void ProtectedMethodIsProtected()
+        {
+            var assemblyBuilder = ReflectionAssemblyBuilder.Create("ProtectedMethodIsProtectedAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("ProtectedMethodIsProtected");
+            var method = typeBuilder.DefineMethod("Foo", typeof(string), EmitVisibility.Protected);
+            method.Il.Emit(EmitOpCode.Ldstr, "bar");
+            method.Il.Emit(EmitOpCode.Ret);
+
+            var type = typeBuilder.CreateType();
+            var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsTrue((methodInfo.Attributes & MethodAttributes.Family) == MethodAttributes.Family);
         }
     }
 }
