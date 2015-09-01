@@ -25,6 +25,17 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
+        public void StaticFieldIsStatic()
+        {
+            var assemblyBuilder = ReflectionAssemblyBuilder.Create("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("TestType");
+            typeBuilder.DefineField("foo", typeof(string), isStatic: true);
+            var type = typeBuilder.CreateType();
+            var field = type.GetField("foo");
+            Assert.IsTrue(field.IsStatic);
+        }
+
+        [Test]
         public void MethodReturnsString()
         {
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodReturnsStringAssembly");
@@ -46,8 +57,7 @@ namespace SexyEmit.Tests.Reflection
         {
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("PrivateMethodIsPrivateAssembly");
             var typeBuilder = assemblyBuilder.DefineType("PrivateMethodIsPrivate");
-            var method = typeBuilder.DefineMethod("Foo", typeof(string), EmitVisibility.Private);
-            method.Il.Emit(EmitOpCode.Ldstr, "bar");
+            var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Private);
             method.Il.Emit(EmitOpCode.Ret);
 
             var type = typeBuilder.CreateType();
@@ -61,14 +71,41 @@ namespace SexyEmit.Tests.Reflection
         {
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("ProtectedMethodIsProtectedAssembly");
             var typeBuilder = assemblyBuilder.DefineType("ProtectedMethodIsProtected");
-            var method = typeBuilder.DefineMethod("Foo", typeof(string), EmitVisibility.Protected);
-            method.Il.Emit(EmitOpCode.Ldstr, "bar");
+            var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Protected);
             method.Il.Emit(EmitOpCode.Ret);
 
             var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsTrue((methodInfo.Attributes & MethodAttributes.Family) == MethodAttributes.Family);
+        }
+
+        [Test]
+        public void InternalMethodIsInternal()
+        {
+            var assemblyBuilder = ReflectionAssemblyBuilder.Create("InternalMethodIsInternalAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("InternalMethodIsInternal");
+            var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Internal);
+            method.Il.Emit(EmitOpCode.Ret);
+
+            var type = typeBuilder.CreateType();
+            var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsTrue((methodInfo.Attributes & MethodAttributes.Assembly) == MethodAttributes.Assembly);
+        }
+
+        [Test]
+        public void StaticMethodIsStatic()
+        {
+            var assemblyBuilder = ReflectionAssemblyBuilder.Create("StaticMethodIsStaticAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("StaticMethodIsStatic");
+            var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Public, isStatic: true);
+            method.Il.Emit(EmitOpCode.Ret);
+
+            var type = typeBuilder.CreateType();
+            var methodInfo = type.GetMethod("Foo");
+
+            Assert.IsTrue(methodInfo.IsStatic);
         }
     }
 }

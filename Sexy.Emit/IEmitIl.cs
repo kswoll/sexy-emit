@@ -2,6 +2,9 @@
 {
     public interface IEmitIl
     {
+        IEmitVariable DeclareLocal(IEmitType type);
+        IEmitLabel DefineLabel();
+        void MarkLabel(IEmitLabel label);
         void Emit(EmitOpCode instruction);
         void Emit(EmitOpCode instruction, IEmitType type);
         void Emit(EmitOpCode instruction, IEmitMethod method);
@@ -14,5 +17,7 @@
         void Emit(EmitOpCode instruction, double operand);
         void Emit(EmitOpCode instruction, float operand);
         void Emit(EmitOpCode instruction, string operand);
+        void Emit(EmitOpCode instruction, IEmitVariable variable);
+        void Emit(EmitOpCode instruction, IEmitLabel label);
     }
 }

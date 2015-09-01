@@ -5,7 +5,7 @@ namespace Sexy.Emit.Reflection
     public static class ReflectionMethodAttributes
     {
         public static MethodAttributes ToMethodAttributes(EmitVisibility visibility, bool isAbstract, bool isSealed,
-            bool isVirtual, bool isExtern)
+            bool isVirtual, bool isExtern, bool isStatic)
         {
             MethodAttributes result = 0;
 
@@ -32,6 +32,8 @@ namespace Sexy.Emit.Reflection
                 result |= MethodAttributes.Abstract;
             if (isVirtual)
                 result |= MethodAttributes.Virtual;
+            if (isStatic)
+                result |= MethodAttributes.Static;
 
             return result;
         }

@@ -18,6 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitFieldBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitIl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethodBuilder.cs" />
@@ -27,7 +29,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitTypeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssemblyBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionFieldAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionIl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionIlExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionMethodAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionOpCode.cs" />
@@ -40,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Fody\" />

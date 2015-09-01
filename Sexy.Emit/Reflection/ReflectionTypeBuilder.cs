@@ -14,16 +14,19 @@ namespace Sexy.Emit.Reflection
             this.type = type;
         }
 
-        public IEmitFieldBuilder DefineField(string name, IEmitType type)
+        public IEmitFieldBuilder DefineField(string name, IEmitType type, EmitVisibility visibility = EmitVisibility.Public, 
+            bool isStatic = false, bool isReadonly = false, bool isVolatile = false)
         {
-            return new ReflectionFieldBuilder(this.type.DefineField(name, ((ReflectionType)type).Type, FieldAttributes.Public));
+            return new ReflectionFieldBuilder(this.type.DefineField(name, ((ReflectionType)type).Type, 
+                ReflectionFieldAttributes.ToFieldAttributes(visibility, isStatic, isReadonly, isVolatile)));
         }
 
         public IEmitMethodBuilder DefineMethod(string name, IEmitType returnType, EmitVisibility visibility = EmitVisibility.Public, 
             bool isAbstract = false, bool isSealed = false, bool isVirtual = false, bool isOverride = false, bool isExtern = false, 
-            params IEmitType[] parameterTypes)
+            bool isStatic = false, params IEmitType[] parameterTypes)
         {
-            return new ReflectionMethodBuilder(type.DefineMethod(name, ReflectionMethodAttributes.ToMethodAttributes(visibility, isAbstract, isSealed, isVirtual, isExtern), 
+            return new ReflectionMethodBuilder(type.DefineMethod(name, 
+                ReflectionMethodAttributes.ToMethodAttributes(visibility, isAbstract, isSealed, isVirtual, isExtern, isStatic), 
                 ((ReflectionType)returnType).Type, parameterTypes.Select(x => ((ReflectionType)x).Type).ToArray()));
         }
 
