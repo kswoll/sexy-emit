@@ -1,3 +1,4 @@
 SexyEmit.Tests/bin/
 SexyEmit.Tests/obj/
 packages/
+*.suo

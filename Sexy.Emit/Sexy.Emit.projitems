@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeKind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />

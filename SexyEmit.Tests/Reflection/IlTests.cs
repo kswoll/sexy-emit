@@ -15,10 +15,10 @@ namespace SexyEmit.Tests.Reflection
             var typeBuilder = assemblyBuilder.DefineType("TestType");
             var method = typeBuilder.DefineMethod("Foo", typeof(string));
             var variable = method.Il.DeclareLocal(typeof(string));
-            method.Il.Emit(EmitOpCode.Ldstr, "bar");
-            method.Il.Emit(EmitOpCode.Stloc, variable);
-            method.Il.Emit(EmitOpCode.Ldloc, variable);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ldstr, "bar");
+            method.Il.Emit(EmitOpCodes.Stloc, variable);
+            method.Il.Emit(EmitOpCodes.Ldloc, variable);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);
@@ -36,18 +36,18 @@ namespace SexyEmit.Tests.Reflection
             var method = typeBuilder.DefineMethod("Foo", typeof(int));
             var variable = method.Il.DeclareLocal(typeof(int));
             var label = method.Il.DefineLabel();
-            method.Il.Emit(EmitOpCode.Ldc_I4_0);
-            method.Il.Emit(EmitOpCode.Stloc, variable);
+            method.Il.Emit(EmitOpCodes.Ldc_I4_0);
+            method.Il.Emit(EmitOpCodes.Stloc, variable);
             method.Il.MarkLabel(label);
-            method.Il.Emit(EmitOpCode.Ldloc, variable);
-            method.Il.Emit(EmitOpCode.Ldc_I4_1);
-            method.Il.Emit(EmitOpCode.Add);
-            method.Il.Emit(EmitOpCode.Dup);
-            method.Il.Emit(EmitOpCode.Stloc, variable);
-            method.Il.Emit(EmitOpCode.Ldc_I4_5);
-            method.Il.Emit(EmitOpCode.Blt, label);
-            method.Il.Emit(EmitOpCode.Ldloc, variable);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ldloc, variable);
+            method.Il.Emit(EmitOpCodes.Ldc_I4_1);
+            method.Il.Emit(EmitOpCodes.Add);
+            method.Il.Emit(EmitOpCodes.Dup);
+            method.Il.Emit(EmitOpCodes.Stloc, variable);
+            method.Il.Emit(EmitOpCodes.Ldc_I4_5);
+            method.Il.Emit(EmitOpCodes.Blt, label);
+            method.Il.Emit(EmitOpCodes.Ldloc, variable);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);

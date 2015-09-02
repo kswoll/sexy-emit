@@ -7,7 +7,7 @@ namespace Sexy.Emit.Reflection
 {
     public static class ReflectionOpCode
     {
-        private static readonly Dictionary<EmitOpCode, OpCode> emitOpCodeToOpCode = typeof(EmitOpCode)
+        private static readonly Dictionary<EmitOpCode, OpCode> emitOpCodeToOpCode = typeof(EmitOpCodes)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
             .ToDictionary(x => (EmitOpCode)x.GetValue(null), x => (OpCode)typeof(OpCodes).GetField(x.Name).GetValue(null));
         private static readonly Dictionary<OpCode, EmitOpCode> opCodeToEmitOpCode = emitOpCodeToOpCode

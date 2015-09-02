@@ -41,8 +41,8 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodReturnsStringAssembly");
             var typeBuilder = assemblyBuilder.DefineType("MethodReturnsString");
             var method = typeBuilder.DefineMethod("Foo", typeof(string));
-            method.Il.Emit(EmitOpCode.Ldstr, "bar");
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ldstr, "bar");
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);
@@ -58,7 +58,7 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("PrivateMethodIsPrivateAssembly");
             var typeBuilder = assemblyBuilder.DefineType("PrivateMethodIsPrivate");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Private);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -72,7 +72,7 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("ProtectedMethodIsProtectedAssembly");
             var typeBuilder = assemblyBuilder.DefineType("ProtectedMethodIsProtected");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Protected);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -86,7 +86,7 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("InternalMethodIsInternalAssembly");
             var typeBuilder = assemblyBuilder.DefineType("InternalMethodIsInternal");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Internal);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -100,7 +100,7 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("StaticMethodIsStaticAssembly");
             var typeBuilder = assemblyBuilder.DefineType("StaticMethodIsStatic");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Public, isStatic: true);
-            method.Il.Emit(EmitOpCode.Ret);
+            method.Il.Emit(EmitOpCodes.Ret);
 
             var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo");
