@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sexy.Emit
+﻿namespace Sexy.Emit
 {
-    public class EmitOpCode
+    public class EmitOpCode : IEmitOpCode
     {
     }
 }

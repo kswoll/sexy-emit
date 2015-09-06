@@ -9,8 +9,23 @@
     <Import_RootNamespace>Sexy.Emit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeDouble.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeFloat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeLabelOrByte.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeLocalOrShort.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeLong.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeTypeMethodOrField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeByte.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeConstructor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeLabelArray.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeShort.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeKind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />
@@ -20,6 +35,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitFieldBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitIl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeByte.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeDouble.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeFloat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeInt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeLabelArray.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeLocal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeLong.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeShort.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethod.cs" />
