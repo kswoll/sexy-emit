@@ -43,11 +43,43 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
+        public void ReturnLiteralLong()
+        {
+            var method = CreateMethod(block => block.Return(5L));
+            var result = (long)method.Invoke(null, null);
+            Assert.AreEqual(5, result);
+        }
+
+        [Test]
         public void ReturnLiteralNull()
         {
             var method = CreateMethod(block => block.ReturnNull());
             var result = method.Invoke(null, null);
             Assert.IsNull(result);
+        }
+
+        [Test]
+        public void ReturnLiteralTrue()
+        {
+            var method = CreateMethod(block => block.Return(true));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ReturnLiteralFloat()
+        {
+            var method = CreateMethod(block => block.Return(1.2f));
+            var result = (float)method.Invoke(null, null);
+            Assert.AreEqual(1.2f, result);
+        }
+
+        [Test]
+        public void ReturnLiteralDouble()
+        {
+            var method = CreateMethod(block => block.Return(1.2d));
+            var result = (double)method.Invoke(null, null);
+            Assert.AreEqual(1.2d, result);
         }
     }
 }
