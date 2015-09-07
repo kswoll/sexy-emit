@@ -5,7 +5,7 @@
         IEmitVariable DeclareLocal(IEmitType type);
         IEmitLabel DefineLabel();
         void MarkLabel(IEmitLabel label);
-        void Emit(EmitOpCode instruction);
+        void Emit(IEmitOpCode instruction);
         void Emit(IEmitOpCodeType instruction, IEmitType type);
         void Emit(IEmitOpCodeMethod instruction, IEmitMethod method);
         void Emit(IEmitOpCodeField instruction, IEmitField field);
@@ -17,7 +17,7 @@
         void Emit(IEmitOpCodeDouble instruction, double operand);
         void Emit(IEmitOpCodeFloat instruction, float operand);
         void Emit(IEmitOpCodeString instruction, string operand);
-        void Emit(IEmitOpCodeVariable instruction, IEmitVariable variable);
+        void Emit(IEmitOpCodeLocal instruction, IEmitVariable variable);
         void Emit(IEmitOpCodeLabel instruction, IEmitLabel label);
         void Emit(IEmitOpCodeLabelArray instruction, IEmitLabel[] labels);
     }

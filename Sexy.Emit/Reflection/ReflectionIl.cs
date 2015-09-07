@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Linq;
+using System.Reflection.Emit;
 
 namespace Sexy.Emit.Reflection
 {
@@ -26,74 +27,79 @@ namespace Sexy.Emit.Reflection
             il.MarkLabel(((ReflectionLabel)label).Label);
         }
 
-        public void Emit(EmitOpCode instruction)
+        public void Emit(IEmitOpCode instruction)
         {
             il.Emit(instruction.ToOpCode());
         }
 
-        public void Emit(EmitOpCode instruction, IEmitType type)
+        public void Emit(IEmitOpCodeType instruction, IEmitType type)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionType)type).Type);
         }
 
-        public void Emit(EmitOpCode instruction, IEmitMethod method)
+        public void Emit(IEmitOpCodeMethod instruction, IEmitMethod method)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionMethod)method).Method);
         }
 
-        public void Emit(EmitOpCode instruction, IEmitField field)
+        public void Emit(IEmitOpCodeField instruction, IEmitField field)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionField)field).Field);
         }
 
-        public void Emit(EmitOpCode instruction, int operand)
+        public void Emit(IEmitOpCodeInt instruction, int operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, short operand)
+        public void Emit(IEmitOpCodeShort instruction, short operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, byte operand)
+        public void Emit(IEmitOpCodeByte instruction, byte operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, sbyte operand)
+        public void Emit(IEmitOpCodeShort instruction, sbyte operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, long operand)
+        public void Emit(IEmitOpCodeLong instruction, long operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, double operand)
+        public void Emit(IEmitOpCodeDouble instruction, double operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, float operand)
+        public void Emit(IEmitOpCodeFloat instruction, float operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, string operand)
+        public void Emit(IEmitOpCodeString instruction, string operand)
         {
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(EmitOpCode instruction, IEmitVariable variable)
+        public void Emit(IEmitOpCodeLocal instruction, IEmitVariable variable)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionVariable)variable).LocalBuilder);
         }
 
-        public void Emit(EmitOpCode instruction, IEmitLabel label)
+        public void Emit(IEmitOpCodeLabel instruction, IEmitLabel label)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionLabel)label).Label);
+        }
+
+        public void Emit(IEmitOpCodeLabelArray instruction, IEmitLabel[] labels)
+        {
+            il.Emit(instruction.ToOpCode(), labels.Select(x => ((ReflectionLabel)x).Label).ToArray());
         }
     }
 }

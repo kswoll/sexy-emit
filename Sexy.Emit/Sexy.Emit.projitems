@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeShort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeKind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />
@@ -50,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeShort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethod.cs" />
