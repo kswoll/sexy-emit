@@ -2,6 +2,7 @@
 using System.Reflection;
 using NUnit.Framework;
 using Sexy.Emit;
+using Sexy.Emit.OpCodes;
 using Sexy.Emit.Reflection;
 
 namespace SexyEmit.Tests.Reflection

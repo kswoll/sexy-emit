@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection.Emit;
+using Sexy.Emit.OpCodes;
 
 namespace Sexy.Emit.Reflection
 {
@@ -12,9 +13,9 @@ namespace Sexy.Emit.Reflection
             this.il = il;
         }
 
-        public IEmitVariable DeclareLocal(IEmitType type)
+        public IEmitLocal DeclareLocal(IEmitType type)
         {
-            return new ReflectionVariable(il.DeclareLocal(((ReflectionType)type).Type));
+            return new ReflectionLocal(il.DeclareLocal(((ReflectionType)type).Type));
         }
 
         public IEmitLabel DefineLabel()
@@ -27,7 +28,7 @@ namespace Sexy.Emit.Reflection
             il.MarkLabel(((ReflectionLabel)label).Label);
         }
 
-        public void Emit(IEmitOpCode instruction)
+        public void Emit(IEmitOpCodeVoid instruction)
         {
             il.Emit(instruction.ToOpCode());
         }
@@ -87,9 +88,9 @@ namespace Sexy.Emit.Reflection
             il.Emit(instruction.ToOpCode(), operand);
         }
 
-        public void Emit(IEmitOpCodeLocal instruction, IEmitVariable variable)
+        public void Emit(IEmitOpCodeLocal instruction, IEmitLocal local)
         {
-            il.Emit(instruction.ToOpCode(), ((ReflectionVariable)variable).LocalBuilder);
+            il.Emit(instruction.ToOpCode(), ((ReflectionLocal)local).LocalBuilder);
         }
 
         public void Emit(IEmitOpCodeLabel instruction, IEmitLabel label)

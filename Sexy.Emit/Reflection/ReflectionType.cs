@@ -27,5 +27,30 @@ namespace Sexy.Emit.Reflection
                     .Select(x => ReflectionMember.Create(x));
             }
         }
+
+        public bool IsValueType => Type.IsValueType;
+
+        public override string ToString()
+        {
+            return $"{Namespace}.{Name}";
+        }
+
+        protected bool Equals(ReflectionType other)
+        {
+            return Equals(Type, other.Type);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((ReflectionType)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Type?.GetHashCode() ?? 0;
+        }
     }
 }

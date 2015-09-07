@@ -13,8 +13,8 @@ namespace Sexy.Emit.Reflection
 
         public static ReflectionAssemblyBuilder Create(string name)
         {
-            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.Run);
-            var moduleBuilder = assemblyBuilder.DefineDynamicModule(name);
+            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.RunAndSave);
+            var moduleBuilder = assemblyBuilder.DefineDynamicModule(name, "module.dll", true);
             return new ReflectionAssemblyBuilder(assemblyBuilder, moduleBuilder);
         }
 

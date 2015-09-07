@@ -1,0 +1,33 @@
+﻿namespace Sexy.Emit.Ast
+{
+    public enum EmitBinaryOperator
+    {
+        Assign,
+        Add,
+        AddAssign,
+        Subtract,
+        SubtractAssign,
+        Multiply,
+        MultiplyAssign,
+        Divide,
+        DivideAssign,
+        Modulus,
+        ModulusAssign,
+        Equals,
+        NotEquals,
+        LessThan,
+        GreaterThan,
+        LessThanOrEqual,
+        GreaterThanOrEqual,
+        BooleanAnd,
+        BooleanOr,
+        BitwiseAnd,
+        BitwiseAndAssign,
+        BitwiseOr,
+        BitwiseOrAssign,
+        ShiftLeft,
+        ShiftLeftAssign,
+        ShiftRight,
+        ShiftRightAssign
+    }
+}

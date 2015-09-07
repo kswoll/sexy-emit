@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Sexy.Emit.OpCodes;
 
 namespace Sexy.Emit.Reflection
 {
@@ -9,7 +10,7 @@ namespace Sexy.Emit.Reflection
     {
         private static readonly Dictionary<IEmitOpCode, OpCode> emitOpCodeToOpCode = typeof(EmitOpCodes)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
-            .ToDictionary(x => (IEmitOpCode)x.GetValue(null), x => (OpCode)typeof(OpCodes).GetField(x.Name).GetValue(null));
+            .ToDictionary(x => (IEmitOpCode)x.GetValue(null), x => (OpCode)typeof(System.Reflection.Emit.OpCodes).GetField(x.Name).GetValue(null));
         private static readonly Dictionary<OpCode, IEmitOpCode> opCodeToEmitOpCode = emitOpCodeToOpCode
             .ToDictionary(x => x.Value, x => x.Key);
 

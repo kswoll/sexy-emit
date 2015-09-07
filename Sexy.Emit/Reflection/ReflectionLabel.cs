@@ -2,7 +2,7 @@
 
 namespace Sexy.Emit.Reflection
 {
-    public class ReflectionLabel : IEmitLabel
+    public class ReflectionLabel : EmitLabel
     {
         public Label Label { get; }
 

@@ -10,5 +10,6 @@ namespace Sexy.Emit
         string Name { get; }
         IEmitType DeclaringType { get; }
         IEnumerable<IEmitMember> Members { get; }
+        bool IsValueType { get; }
     }
 }
