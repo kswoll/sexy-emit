@@ -15,9 +15,9 @@ namespace SexyEmit.Tests.Reflection
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodAssembly");
             var typeBuilder = assemblyBuilder.DefineType("Method");
             var method = typeBuilder.DefineMethod("Foo", typeof(object), isStatic: true);
-            var block = EmitAst.Block();
+            var block = method.Body;
             ilGenerator(block);
-            block.Compile(new EmitCompilerContext(method, new ReflectionTypeSystem()), method.Il);
+            method.Compile();
 
             var type = typeBuilder.CreateType();
             assemblyBuilder.AssemblyBuilder.Save("assembly.dll");
