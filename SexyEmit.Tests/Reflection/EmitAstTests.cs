@@ -81,5 +81,13 @@ namespace SexyEmit.Tests.Reflection
             var result = (double)method.Invoke(null, null);
             Assert.AreEqual(1.2d, result);
         }
+
+        [Test]
+        public void ReturnAddTwoInts()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).Add(4)));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(9, result);
+        }
     }
 }

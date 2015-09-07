@@ -38,139 +38,139 @@
             return new EmitReturnStatement(expression);
         }
 
-        public static EmitBinaryExpression Assign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Assign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Assign, right);
         }
 
-        public static EmitBinaryExpression Add(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Add(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Add, right);
         }
 
-        public static EmitBinaryExpression AddAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression AddAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.AddAssign, right);
         }
 
-        public static EmitBinaryExpression Subtract(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Subtract(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Subtract, right);
         }
 
-        public static EmitBinaryExpression SubtractAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression SubtractAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.SubtractAssign, right);
         }
 
-        public static EmitBinaryExpression Multiply(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Multiply(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Multiply, right);
         }
 
-        public static EmitBinaryExpression MultiplyAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression MultiplyAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.MultiplyAssign, right);
         }
 
-        public static EmitBinaryExpression Divide(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Divide(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Divide, right);
         }
 
-        public static EmitBinaryExpression DivideAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression DivideAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.DivideAssign, right);
         }
 
-        public static EmitBinaryExpression Modulus(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Modulus(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Modulus, right);
         }
 
-        public static EmitBinaryExpression ModulusAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression ModulusAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ModulusAssign, right);
         }
 
-        public static EmitBinaryExpression Equals(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression Equals(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Equals, right);
         }
 
-        public static EmitBinaryExpression NotEquals(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression NotEquals(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.NotEquals, right);
         }
 
-        public static EmitBinaryExpression LessThan(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression LessThan(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.LessThan, right);
         }
 
-        public static EmitBinaryExpression GreaterThan(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression GreaterThan(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.GreaterThan, right);
         }
 
-        public static EmitBinaryExpression LessThanOrEqual(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression LessThanOrEqual(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.LessThanOrEqual, right);
         }
 
-        public static EmitBinaryExpression GreaterThanOrEqual(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression GreaterThanOrEqual(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.GreaterThanOrEqual, right);
         }
 
-        public static EmitBinaryExpression BooleanAnd(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BooleanAnd(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BooleanAnd, right);
         }
 
-        public static EmitBinaryExpression BooleanOr(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BooleanOr(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BooleanOr, right);
         }
 
-        public static EmitBinaryExpression BitwiseAnd(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BitwiseAnd(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseAnd, right);
         }
 
-        public static EmitBinaryExpression BitwiseAndAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BitwiseAndAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseAndAssign, right);
         }
 
-        public static EmitBinaryExpression BitwiseOr(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BitwiseOr(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOr, right);
         }
 
-        public static EmitBinaryExpression BitwiseOrAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression BitwiseOrAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOrAssign, right);
         }
 
-        public static EmitBinaryExpression ShiftLeft(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression ShiftLeft(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftLeft, right);
         }
 
-        public static EmitBinaryExpression ShiftLeftAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression ShiftLeftAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftLeftAssign, right);
         }
 
-        public static EmitBinaryExpression ShiftRight(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression ShiftRight(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRight, right);
         }
 
-        public static EmitBinaryExpression ShiftRightAssign(this EmitExpression left, EmitBinaryOperator op, EmitExpression right)
+        public static EmitBinaryExpression ShiftRightAssign(this EmitExpression left, EmitExpression right)
         {
-            return new EmitBinaryExpression(left, op, right);
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRightAssign, right);
         }
 
         public static EmitExpressionStatement Express(this EmitExpression expression)
