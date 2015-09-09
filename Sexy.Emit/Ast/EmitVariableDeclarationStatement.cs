@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Sexy.Emit.Ast
 {
@@ -18,6 +19,11 @@ namespace Sexy.Emit.Ast
                 var local = il.DeclareLocal(variable.Type);
                 variable.SetData(context, local);
             }
+        }
+
+        public static implicit operator EmitVariableReferenceExpression(EmitVariableDeclarationStatement declaration)
+        {
+            return new EmitVariableReferenceExpression(declaration.Variables.Single());
         }
     }
 }

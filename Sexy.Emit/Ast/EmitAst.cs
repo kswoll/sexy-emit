@@ -1,4 +1,6 @@
-﻿namespace Sexy.Emit.Ast
+﻿using System.Linq;
+
+namespace Sexy.Emit.Ast
 {
     public static class EmitAst
     {
@@ -33,9 +35,33 @@
             return result;
         }
 
+        public static EmitVariableDeclarationStatement Declare(this EmitBlockStatement block, IEmitType type)
+        {
+            var result = Declare(type);
+            block.Statements.Add(result);
+            return result;
+        }
+
+        public static EmitVariableDeclarationStatement Declare(this EmitBlockStatement block, params EmitVariable[] variables)
+        {
+            var result = Declare(variables);
+            block.Statements.Add(result);
+            return result;
+        }
+
         public static EmitReturnStatement Return(this EmitExpression expression)
         {
             return new EmitReturnStatement(expression);
+        }
+
+        public static EmitBinaryExpression Assign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left.Variables.Single(), EmitBinaryOperator.Assign, right);
+        }
+
+        public static EmitBinaryExpression Assign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Assign, right);
         }
 
         public static EmitBinaryExpression Assign(this EmitExpression left, EmitExpression right)
@@ -53,12 +79,32 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.AddAssign, right);
         }
 
+        public static EmitBinaryExpression AddAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.AddAssign, right);
+        }
+
+        public static EmitBinaryExpression AddAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.AddAssign, right);
+        }
+
         public static EmitBinaryExpression Subtract(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.Subtract, right);
         }
 
         public static EmitBinaryExpression SubtractAssign(this EmitExpression left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.SubtractAssign, right);
+        }
+
+        public static EmitBinaryExpression SubtractAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.SubtractAssign, right);
+        }
+
+        public static EmitBinaryExpression SubtractAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.SubtractAssign, right);
         }
@@ -73,6 +119,16 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.MultiplyAssign, right);
         }
 
+        public static EmitBinaryExpression MultiplyAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.MultiplyAssign, right);
+        }
+
+        public static EmitBinaryExpression MultiplyAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.MultiplyAssign, right);
+        }
+
         public static EmitBinaryExpression Divide(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.Divide, right);
@@ -83,7 +139,27 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.DivideAssign, right);
         }
 
+        public static EmitBinaryExpression DivideAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.DivideAssign, right);
+        }
+
+        public static EmitBinaryExpression DivideAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.DivideAssign, right);
+        }
+
         public static EmitBinaryExpression Modulus(this EmitExpression left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Modulus, right);
+        }
+
+        public static EmitBinaryExpression Modulus(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.Modulus, right);
+        }
+
+        public static EmitBinaryExpression Modulus(this EmitVariableDeclarationStatement left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.Modulus, right);
         }
@@ -93,12 +169,22 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.ModulusAssign, right);
         }
 
-        public static EmitBinaryExpression Equals(this EmitExpression left, EmitExpression right)
+        public static EmitBinaryExpression ModulusAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ModulusAssign, right);
+        }
+
+        public static EmitBinaryExpression ModulusAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ModulusAssign, right);
+        }
+
+        public static EmitBinaryExpression EqualTo(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.Equals, right);
         }
 
-        public static EmitBinaryExpression NotEquals(this EmitExpression left, EmitExpression right)
+        public static EmitBinaryExpression NotEqualTo(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.NotEquals, right);
         }
@@ -143,12 +229,32 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseAndAssign, right);
         }
 
+        public static EmitBinaryExpression BitwiseAndAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseAndAssign, right);
+        }
+
+        public static EmitBinaryExpression BitwiseAndAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseAndAssign, right);
+        }
+
         public static EmitBinaryExpression BitwiseOr(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOr, right);
         }
 
         public static EmitBinaryExpression BitwiseOrAssign(this EmitExpression left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOrAssign, right);
+        }
+
+        public static EmitBinaryExpression BitwiseOrAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOrAssign, right);
+        }
+
+        public static EmitBinaryExpression BitwiseOrAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.BitwiseOrAssign, right);
         }
@@ -163,12 +269,32 @@
             return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftLeftAssign, right);
         }
 
+        public static EmitBinaryExpression ShiftLeftAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftLeftAssign, right);
+        }
+
+        public static EmitBinaryExpression ShiftLeftAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftLeftAssign, right);
+        }
+
         public static EmitBinaryExpression ShiftRight(this EmitExpression left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRight, right);
         }
 
         public static EmitBinaryExpression ShiftRightAssign(this EmitExpression left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRightAssign, right);
+        }
+
+        public static EmitBinaryExpression ShiftRightAssign(this EmitVariable left, EmitExpression right)
+        {
+            return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRightAssign, right);
+        }
+
+        public static EmitBinaryExpression ShiftRightAssign(this EmitVariableDeclarationStatement left, EmitExpression right)
         {
             return new EmitBinaryExpression(left, EmitBinaryOperator.ShiftRightAssign, right);
         }

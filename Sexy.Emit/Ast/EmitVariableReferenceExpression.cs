@@ -21,6 +21,7 @@ namespace Sexy.Emit.Ast
         {
             var local = Variable.GetData(context);
             compileValue();
+            il.Emit(EmitOpCodes.Dup);       // We want to leave the assigned value on the stack, since assignment is an expression
             il.Emit(EmitOpCodes.Stloc, local);
         }
 

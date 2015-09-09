@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection.Emit;
 using Sexy.Emit.OpCodes;
+using Sexy.Emit.Utils;
 
 namespace Sexy.Emit.Reflection
 {
@@ -26,6 +28,11 @@ namespace Sexy.Emit.Reflection
         public void MarkLabel(IEmitLabel label)
         {
             il.MarkLabel(((ReflectionLabel)label).Label);
+        }
+
+        public void Emit(EmitOpCode instruction, Impossible impossible)
+        {
+            throw new NotImplementedException();
         }
 
         public void Emit(IEmitOpCodeVoid instruction)

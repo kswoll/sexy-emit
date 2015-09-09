@@ -79,7 +79,6 @@ namespace Sexy.Emit.Ast
                         var local = il.DeclareLocal(typeof(bool));
                         il.Emit(EmitOpCodes.Stloc, local);
                         ((IEmitReferenceExpression)Left).CompileAssignment(context, il, () => il.Emit(EmitOpCodes.Ldloc, local));
-                        il.Emit(EmitOpCodes.Ldloc, local);
                     }
 
                     break;
@@ -111,6 +110,24 @@ namespace Sexy.Emit.Ast
             {
                 case EmitBinaryOperator.GreaterThanOrEqual:
                 case EmitBinaryOperator.LessThanOrEqual:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public bool IsOperatorComparison()
+        {
+            switch (Operator)
+            {
+                case EmitBinaryOperator.BooleanAnd:
+                case EmitBinaryOperator.BooleanOr:
+                case EmitBinaryOperator.Equals:
+                case EmitBinaryOperator.GreaterThan:
+                case EmitBinaryOperator.GreaterThanOrEqual:
+                case EmitBinaryOperator.LessThan:
+                case EmitBinaryOperator.LessThanOrEqual:
+                case EmitBinaryOperator.NotEquals:
                     return true;
                 default:
                     return false;
@@ -162,7 +179,10 @@ namespace Sexy.Emit.Ast
 
         public override IEmitType GetType(IEmitTypeSystem typeSystem)
         {
-            return Left.GetType(typeSystem);  // Eventually apply widest-type semantics
+            if (IsOperatorComparison())
+                return typeSystem.GetType(typeof(bool));
+            else
+                return Left.GetType(typeSystem);  // Eventually apply widest-type semantics
         }
     }
 }
