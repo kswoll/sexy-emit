@@ -170,6 +170,7 @@ namespace Sexy.Emit.Ast
                 case EmitBinaryOperator.ShiftLeft:
                 case EmitBinaryOperator.ShiftLeftAssign:
                     return EmitOpCodes.Shl;
+                case EmitBinaryOperator.ShiftRight:
                 case EmitBinaryOperator.ShiftRightAssign:
                     return EmitOpCodes.Shr;
                 default:

@@ -27,7 +27,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralString()
+        public void LiteralString()
         {
             var method = CreateMethod(block => block.Return("foo"));
             var result = (string)method.Invoke(null, null);
@@ -35,7 +35,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralInt()
+        public void LiteralInt()
         {
             var method = CreateMethod(block => block.Return(5));
             var result = (int)method.Invoke(null, null);
@@ -43,7 +43,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralLong()
+        public void LiteralLong()
         {
             var method = CreateMethod(block => block.Return(5L));
             var result = (long)method.Invoke(null, null);
@@ -51,7 +51,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralNull()
+        public void LiteralNull()
         {
             var method = CreateMethod(block => block.ReturnNull());
             var result = method.Invoke(null, null);
@@ -59,7 +59,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralTrue()
+        public void LiteralTrue()
         {
             var method = CreateMethod(block => block.Return(true));
             var result = (bool)method.Invoke(null, null);
@@ -67,7 +67,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralFloat()
+        public void LiteralFloat()
         {
             var method = CreateMethod(block => block.Return(1.2f));
             var result = (float)method.Invoke(null, null);
@@ -75,7 +75,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnLiteralDouble()
+        public void LiteralDouble()
         {
             var method = CreateMethod(block => block.Return(1.2d));
             var result = (double)method.Invoke(null, null);
@@ -83,7 +83,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnAddTwoInts()
+        public void AddTwoInts()
         {
             var method = CreateMethod(block => block.Return(EmitAst.Literal(5).Add(4)));
             var result = (int)method.Invoke(null, null);
@@ -91,7 +91,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnAddTwoFloats()
+        public void AddTwoFloats()
         {
             var method = CreateMethod(block => block.Return(EmitAst.Literal(5.1f).Add(4.2f)));
             var result = (float)method.Invoke(null, null);
@@ -99,7 +99,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnAddTwoDoubles()
+        public void AddTwoDoubles()
         {
             var method = CreateMethod(block => block.Return(EmitAst.Literal(5.1d).Add(4.2d)));
             var result = (double)method.Invoke(null, null);
@@ -107,7 +107,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnAddDoubleAndFloat()
+        public void AddDoubleAndFloat()
         {
             var method = CreateMethod(block => block.Return(EmitAst.Literal(5.1d).Add(4.2f)));
             var result = (double)method.Invoke(null, null);
@@ -115,7 +115,7 @@ namespace SexyEmit.Tests.Reflection
         }
 
         [Test]
-        public void ReturnAddDoubleAndInt()
+        public void AddDoubleAndInt()
         {
             var method = CreateMethod(block => block.Return(EmitAst.Literal(5.1d).Add(4)));
             var result = (double)method.Invoke(null, null);
@@ -152,6 +152,38 @@ namespace SexyEmit.Tests.Reflection
             var method = CreateMethod(block => block.Return(EmitAst.Literal(7).Modulus(3)));
             var result = (int)method.Invoke(null, null);
             Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void BitwiseAnd()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(7).BitwiseAnd(4 | 1)));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(5, result);
+        }
+
+        [Test]
+        public void BitwiseOr()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(1 | 2).BitwiseOr(4 | 8)));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
+        public void ShiftLeft()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(1).ShiftLeft(2)));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(4, result);            
+        }
+
+        [Test]
+        public void ShiftRight()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(4).ShiftRight(2)));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(1, result);            
         }
 
         [Test]
@@ -259,6 +291,62 @@ namespace SexyEmit.Tests.Reflection
             });
             var result = (int)method.Invoke(null, null);
             Assert.AreEqual(3, result);            
+        }
+
+        [Test]
+        public void BitwiseOrAssign()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(1 | 2));
+                block.Express(variable.BitwiseOrAssign(4 | 8));
+                block.Return(variable);
+            });
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(15, result);                       
+        }
+
+        [Test]
+        public void BitwiseAndAssign()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(7));
+                block.Express(variable.BitwiseAndAssign(4 | 1));
+                block.Return(variable);
+            });
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(5, result);                       
+        }
+
+        [Test]
+        public void ShiftLeftAssign()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(1));
+                block.Express(variable.ShiftLeftAssign(2));
+                block.Return(variable);
+            });
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(4, result);                       
+        }
+
+        [Test]
+        public void ShiftRightAssign()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(4));
+                block.Express(variable.ShiftRightAssign(2));
+                block.Return(variable);
+            });
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(1, result);                       
         }
 
 // For later, when other functions are complete
