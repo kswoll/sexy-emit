@@ -10,7 +10,7 @@ namespace SexyEmit.Tests.Reflection
     [TestFixture]
     public class EmitAstTests
     {
-        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator)
+        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator, Type baseType = null)
         {
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodAssembly");
             var typeBuilder = assemblyBuilder.DefineType("Method");

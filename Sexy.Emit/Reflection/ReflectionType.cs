@@ -29,6 +29,7 @@ namespace Sexy.Emit.Reflection
         }
 
         public bool IsValueType => Type.IsValueType;
+        public IEmitType BaseType => new ReflectionType(Type.BaseType);
 
         public override string ToString()
         {

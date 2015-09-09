@@ -108,5 +108,21 @@ namespace SexyEmit.Tests.Reflection
 
             Assert.IsTrue(methodInfo.IsStatic);
         }
+
+        [Test]
+        public void ClassExtendsBaseType()
+        {
+            var assemblyBuilder = ReflectionAssemblyBuilder.Create("StaticMethodIsStaticAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("StaticMethodIsStatic");
+            typeBuilder.SetBaseType(typeof(CustomBaseType));
+
+            var type = typeBuilder.CreateType();
+
+            Assert.IsTrue(typeof(CustomBaseType).IsAssignableFrom(type));
+        }
+
+        public class CustomBaseType
+        {
+        }
     }
 }

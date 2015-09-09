@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace Sexy.Emit.Reflection
@@ -12,6 +11,11 @@ namespace Sexy.Emit.Reflection
         public ReflectionTypeBuilder(TypeBuilder type) : base(type)
         {
             this.type = type;
+        }
+
+        public void SetBaseType(IEmitType baseType)
+        {
+            type.SetParent(((ReflectionType)baseType).Type);
         }
 
         public IEmitFieldBuilder DefineField(string name, IEmitType type, EmitVisibility visibility = EmitVisibility.Public, 

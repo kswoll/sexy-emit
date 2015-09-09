@@ -5,6 +5,11 @@ namespace Sexy.Emit.Reflection
 {
     public static class ReflectionTypeBuilderExtensions
     {
+        public static void SetBaseType(this IEmitTypeBuilder typeBuilder, Type baseType)
+        {
+            typeBuilder.SetBaseType(new ReflectionType(baseType));
+        }
+
         public static IEmitFieldBuilder DefineField(this IEmitTypeBuilder typeBuilder, string name, Type type, 
             EmitVisibility visibility = EmitVisibility.Public, bool isStatic = false, bool isReadonly = false, 
             bool isVolatile = false)

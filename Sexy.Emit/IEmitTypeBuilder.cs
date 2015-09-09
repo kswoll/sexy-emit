@@ -2,6 +2,8 @@
 {
     public interface IEmitTypeBuilder : IEmitType
     {
+        void SetBaseType(IEmitType baseType);
+
         IEmitFieldBuilder DefineField(string name, IEmitType type, EmitVisibility visibility = EmitVisibility.Public, 
             bool isStatic = false, bool isReadonly = false, bool isVolatile = false);
 
