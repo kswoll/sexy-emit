@@ -48,31 +48,21 @@ namespace Sexy.Emit.Ast
                     il.MarkLabel(orEnd);
 
                     break;
-                case EmitBinaryOperator.NotEquals:
-                    Left.Compile(context, il);
-                    Right.Compile(context, il);
-
-                    il.Emit(EmitOpCodes.Ceq);
-                    il.Emit(EmitOpCodes.Ldc_I4_0);
-                    il.Emit(EmitOpCodes.Ceq);
-                    break;
                 default:
                     var instruction = GetOpCode();
                     var isInverted = IsOperatorInverse();
                     var isAssignment = IsOperatorAssignment();
 
-                    if (isInverted)
-                    {
-                        Right.Compile(context, il);                        
-                        Left.Compile(context, il);
-                    }
-                    else
-                    {
-                        Left.Compile(context, il);
-                        Right.Compile(context, il);
-                    }
+                    Left.Compile(context, il);
+                    Right.Compile(context, il);
 
                     il.Emit(instruction);
+
+                    if (isInverted)
+                    {
+                        il.Emit(EmitOpCodes.Ldc_I4_0);
+                        il.Emit(EmitOpCodes.Ceq);                        
+                    }
 
                     if (isAssignment)
                     {
@@ -110,6 +100,7 @@ namespace Sexy.Emit.Ast
             {
                 case EmitBinaryOperator.GreaterThanOrEqual:
                 case EmitBinaryOperator.LessThanOrEqual:
+                case EmitBinaryOperator.NotEquals:
                     return true;
                 default:
                     return false;
@@ -151,6 +142,7 @@ namespace Sexy.Emit.Ast
                 case EmitBinaryOperator.DivideAssign:
                     return EmitOpCodes.Div;
                 case EmitBinaryOperator.Equals:
+                case EmitBinaryOperator.NotEquals:
                     return EmitOpCodes.Ceq;
                 case EmitBinaryOperator.GreaterThan:
                 case EmitBinaryOperator.LessThanOrEqual:

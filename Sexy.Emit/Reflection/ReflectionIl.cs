@@ -50,6 +50,11 @@ namespace Sexy.Emit.Reflection
             il.Emit(instruction.ToOpCode(), ((ReflectionMethod)method).Method);
         }
 
+        public void Emit(IEmitOpCodeConstructor instruction, IEmitConstructor constructor)
+        {
+            il.Emit(instruction.ToOpCode(), ((ReflectionConstructor)constructor).Constructor);
+        }
+
         public void Emit(IEmitOpCodeField instruction, IEmitField field)
         {
             il.Emit(instruction.ToOpCode(), ((ReflectionField)field).Field);

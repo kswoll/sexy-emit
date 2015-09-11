@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpressionStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitForStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitMethodInvocationExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitObjectCreationExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitReturnStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitLiteralExpression.cs" />
@@ -35,6 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssemblyBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitConstructor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitConstructorBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitFieldBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitIl.cs" />
@@ -62,6 +66,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeLocalOrShort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeLong.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeMethodOrConstructor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeShort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeString.cs" />
@@ -69,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeTypeMethodOrField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeByte.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeConstructor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeDouble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeFloat.cs" />
@@ -83,6 +89,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssemblyBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionConstructor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionConstructorBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionEmitAstExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionFieldAttributes.cs" />

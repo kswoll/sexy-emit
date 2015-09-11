@@ -20,6 +20,7 @@ namespace Sexy.Emit
         void Emit(IEmitOpCodeVoid instruction);
         void Emit(IEmitOpCodeType instruction, IEmitType type);
         void Emit(IEmitOpCodeMethod instruction, IEmitMethod method);
+        void Emit(IEmitOpCodeConstructor instruction, IEmitConstructor constructor);
         void Emit(IEmitOpCodeField instruction, IEmitField field);
         void Emit(IEmitOpCodeInt instruction, int operand);
         void Emit(IEmitOpCodeShort instruction, short operand);

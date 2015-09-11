@@ -15,6 +15,10 @@ namespace Sexy.Emit.Reflection
                 return new ReflectionMethodBuilder((MethodBuilder)member);
             if (member is MethodInfo)
                 return new ReflectionMethod((MethodInfo)member);
+            if (member is ConstructorBuilder)
+                return new ReflectionConstructorBuilder((ConstructorBuilder)member);
+            if (member is ConstructorInfo)
+                return new ReflectionConstructor((ConstructorInfo)member);
 
             return null;
         }

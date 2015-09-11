@@ -45,7 +45,7 @@ namespace Sexy.Emit
         public static readonly EmitOpCodeVoid Dup = new EmitOpCodeVoid();
         public static readonly EmitOpCodeVoid Pop = new EmitOpCodeVoid();
         public static readonly EmitOpCodeMethod Jmp = new EmitOpCodeMethod();
-        public static readonly EmitOpCodeMethod Call = new EmitOpCodeMethod();
+        public static readonly EmitOpCodeMethodOrConstructor Call = new EmitOpCodeMethodOrConstructor();
         public static readonly EmitOpCodeMethod Calli = new EmitOpCodeMethod();
         public static readonly EmitOpCodeVoid Ret = new EmitOpCodeVoid();
         public static readonly EmitOpCodeLabel Br_S = new EmitOpCodeLabel();
@@ -217,7 +217,7 @@ namespace Sexy.Emit
         public static readonly EmitOpCodeShort Ldarga = new EmitOpCodeShort();
         public static readonly EmitOpCodeShort Starg = new EmitOpCodeShort();
         public static readonly EmitOpCodeLocalOrShort Ldloc = new EmitOpCodeLocalOrShort();
-        public static readonly EmitOpCodeShort Ldloca = new EmitOpCodeShort();
+        public static readonly EmitOpCodeLocalOrShort Ldloca = new EmitOpCodeLocalOrShort();
         public static readonly EmitOpCodeLocalOrShort Stloc = new EmitOpCodeLocalOrShort();
         public static readonly EmitOpCodeVoid Localloc = new EmitOpCodeVoid();
         public static readonly EmitOpCodeVoid Endfilter = new EmitOpCodeVoid();

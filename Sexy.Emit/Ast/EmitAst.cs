@@ -349,5 +349,15 @@ namespace Sexy.Emit.Ast
         {
             return new EmitLiteralExpression(value);
         }
+
+        public static EmitMethodInvocationExpression Invoke(IEmitMethod method, params EmitExpression[] arguments)
+        {
+            return new EmitMethodInvocationExpression(method, arguments);
+        }
+
+        public static EmitMethodInvocationExpression Invoke(this EmitExpression target, IEmitMethod method, params EmitExpression[] arguments)
+        {
+            return new EmitMethodInvocationExpression(target, method, arguments);
+        }
     }
 }

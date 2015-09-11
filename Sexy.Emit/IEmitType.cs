@@ -11,6 +11,7 @@ namespace Sexy.Emit
         IEmitType DeclaringType { get; }
         IEnumerable<IEmitMember> Members { get; }
         bool IsValueType { get; }
+        bool IsInterface { get; }
         IEmitType BaseType { get; }
     }
 }

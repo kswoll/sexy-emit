@@ -1,6 +1,6 @@
 ﻿namespace Sexy.Emit.OpCodes
 {
-    public class EmitOpCodeConstructor : EmitOpCode
+    public class EmitOpCodeConstructor : EmitOpCode, IEmitOpCodeConstructor
     {
     }
 }

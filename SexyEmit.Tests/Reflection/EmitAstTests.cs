@@ -349,11 +349,139 @@ namespace SexyEmit.Tests.Reflection
             Assert.AreEqual(1, result);                       
         }
 
+        [Test]
+        public void GreaterThan()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).GreaterThan(4)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void LessThan()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).LessThan(6)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void GreaterThanOrEqualWhenEqual()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).GreaterThanOrEqual(5)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);            
+        }
+
+        [Test]
+        public void GreaterThanOrEqualWhenGreater()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).GreaterThanOrEqual(4)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);            
+        }
+
+        [Test]
+        public void LessThanOrEqualWhenEqual()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).LessThanOrEqual(5)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);            
+        }
+
+        [Test]
+        public void LessThanOrEqualWhenLess()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(5).LessThanOrEqual(6)));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);            
+        }
+
+
 // For later, when other functions are complete
 //        [Test]
 //        public void BooleanAndShortCircuits()
 //        {
 //            var method = CreateMethod(block => block.Return(EmitAst.Literal(7).Modulus(3)));
 //        }
+
+        [Test]
+        public void InstantiateClass()
+        {
+            var method = CreateMethod(block => block.Return(typeof(InstanceClass).GetConstructor(new Type[0]).Instantiation()));
+            var result = method.Invoke(null, null);
+            Assert.IsTrue(result is InstanceClass);
+        }
+
+        public class InstanceClass
+        {
+        }
+
+        [Test]
+        public void InstantiateClassWithConstructor()
+        {
+            var method = CreateMethod(block => block.Return(typeof(InstanceClassWithConstructor).GetConstructors()[0].Instantiation(1, "foo")));
+            var result = (InstanceClassWithConstructor)method.Invoke(null, null);
+            Assert.AreEqual(1, result.IntProperty);
+            Assert.AreEqual("foo", result.StringProperty);
+        }
+
+        public class InstanceClassWithConstructor
+        {
+            public int IntProperty { get; }
+            public string StringProperty { get; }
+
+            public InstanceClassWithConstructor(int intProperty, string stringProperty)
+            {
+                IntProperty = intProperty;
+                StringProperty = stringProperty;
+            }
+        }
+
+        [Test]
+        public void InstantiateStruct()
+        {
+            var method = CreateMethod(block => block.Return(typeof(Struct).Instantiation()));
+            var result = method.Invoke(null, null);
+            Assert.IsTrue(result is Struct);
+        }
+
+        public struct Struct
+        {
+        }
+
+        [Test]
+        public void InstantiateStructWithConstructor()
+        {
+            var method = CreateMethod(block => block.Return(typeof(StructWithConstructor).GetConstructors()[0].Instantiation("foo")));
+            var result = (StructWithConstructor)method.Invoke(null, null);
+            Assert.AreEqual("foo", result.StringProperty);
+        }
+
+        public struct StructWithConstructor
+        {
+            public string StringProperty { get; }
+
+            public StructWithConstructor(string stringProperty)
+            {
+                StringProperty = stringProperty;
+            }
+        }
+
+        [Test]
+        public void InvokeStaticMethod()
+        {
+            var method = CreateMethod(block => block.Return(typeof(StaticMethodClass).GetMethod("Mirror").Invocation("foo")));
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("foo", result);
+        }
+
+        public static class StaticMethodClass
+        {
+            public static string Mirror(string s)
+            {
+                return s;
+            }
+        }
     }
 }
