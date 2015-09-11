@@ -408,7 +408,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateClass()
         {
-            var method = CreateMethod(block => block.Return(typeof(InstanceClass).GetConstructor(new Type[0]).Instantiation()));
+            var method = CreateMethod(block => block.Return(typeof(InstanceClass).GetConstructor(new Type[0]).New()));
             var result = method.Invoke(null, null);
             Assert.IsTrue(result is InstanceClass);
         }
@@ -420,7 +420,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateClassWithConstructor()
         {
-            var method = CreateMethod(block => block.Return(typeof(InstanceClassWithConstructor).GetConstructors()[0].Instantiation(1, "foo")));
+            var method = CreateMethod(block => block.Return(typeof(InstanceClassWithConstructor).GetConstructors()[0].New(1, "foo")));
             var result = (InstanceClassWithConstructor)method.Invoke(null, null);
             Assert.AreEqual(1, result.IntProperty);
             Assert.AreEqual("foo", result.StringProperty);
@@ -441,7 +441,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateStruct()
         {
-            var method = CreateMethod(block => block.Return(typeof(Struct).Instantiation()));
+            var method = CreateMethod(block => block.Return(typeof(Struct).New()));
             var result = method.Invoke(null, null);
             Assert.IsTrue(result is Struct);
         }
@@ -453,7 +453,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateStructWithConstructor()
         {
-            var method = CreateMethod(block => block.Return(typeof(StructWithConstructor).GetConstructors()[0].Instantiation("foo")));
+            var method = CreateMethod(block => block.Return(typeof(StructWithConstructor).GetConstructors()[0].New("foo")));
             var result = (StructWithConstructor)method.Invoke(null, null);
             Assert.AreEqual("foo", result.StringProperty);
         }
@@ -471,7 +471,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InvokeStaticMethod()
         {
-            var method = CreateMethod(block => block.Return(typeof(StaticMethodClass).GetMethod("Mirror").Invocation("foo")));
+            var method = CreateMethod(block => block.Return(typeof(StaticMethodClass).GetMethod("Mirror").Call("foo")));
             var result = (string)method.Invoke(null, null);
             Assert.AreEqual("foo", result);
         }
