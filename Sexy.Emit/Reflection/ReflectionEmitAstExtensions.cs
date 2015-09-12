@@ -16,6 +16,11 @@ namespace Sexy.Emit.Reflection
             return new EmitMethodInvocationExpression(new ReflectionMethod(method), arguments);
         }
 
+        public static EmitMethodInvocationExpression Call(this EmitExpression target, MethodInfo method, params EmitExpression[] arguments)
+        {
+            return target.Call(new ReflectionMethod(method), arguments);
+        }
+
         public static EmitObjectCreationExpression New(this ConstructorInfo constructor, params EmitExpression[] arguments)
         {
             return new EmitObjectCreationExpression(new ReflectionConstructor(constructor), arguments);

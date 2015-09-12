@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Sexy.Emit;
@@ -398,12 +399,81 @@ namespace SexyEmit.Tests.Reflection
         }
 
 
-// For later, when other functions are complete
-//        [Test]
-//        public void BooleanAndShortCircuits()
-//        {
-//            var method = CreateMethod(block => block.Return(EmitAst.Literal(7).Modulus(3)));
-//        }
+        [Test]
+        public void BooleanAndShortCircuitsTrue()
+        {
+            ShortCircuitsData.Reset();
+            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            var method = CreateMethod(block => block.Return(returnFalse.Call().BooleanAnd(returnTrue.Call())));
+            var result = (bool)method.Invoke(null, null);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnFalse);
+            Assert.AreEqual(0, ShortCircuitsData.NumberOfCallsToReturnTrue);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void BooleanAndShortCircuitsFalse()
+        {
+            ShortCircuitsData.Reset();
+            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            var method = CreateMethod(block => block.Return(returnTrue.Call().BooleanAnd(returnFalse.Call())));
+            var result = (bool)method.Invoke(null, null);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnFalse);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnTrue);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void BooleanOrShortCircuitsTrue()
+        {
+            ShortCircuitsData.Reset();
+            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            var method = CreateMethod(block => block.Return(returnTrue.Call().BooleanOr(returnFalse.Call())));
+            var result = (bool)method.Invoke(null, null);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnTrue);
+            Assert.AreEqual(0, ShortCircuitsData.NumberOfCallsToReturnFalse);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void BooleanOrShortCircuitsFalse()
+        {
+            ShortCircuitsData.Reset();
+            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            var method = CreateMethod(block => block.Return(returnFalse.Call().BooleanOr(returnTrue.Call())));
+            var result = (bool)method.Invoke(null, null);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnTrue);
+            Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnFalse);
+            Assert.IsTrue(result);
+        }
+
+        public static class ShortCircuitsData 
+        {
+            public static int NumberOfCallsToReturnTrue { get; set; }
+            public static int NumberOfCallsToReturnFalse { get; set; }
+
+            public static void Reset()
+            {
+                NumberOfCallsToReturnFalse = 0;
+                NumberOfCallsToReturnTrue = 0;
+            }
+
+            public static bool ReturnTrue()
+            {
+                NumberOfCallsToReturnTrue++;
+                return true;
+            }
+
+            public static bool ReturnFalse()
+            {
+                NumberOfCallsToReturnFalse++;
+                return false;
+            }
+        }
 
         [Test]
         public void InstantiateClass()
@@ -482,6 +552,118 @@ namespace SexyEmit.Tests.Reflection
             {
                 return s;
             }
+        }
+
+        [Test]
+        public void InvokeInstanceMethod()
+        {
+            var x = 5;
+            var y = +x;
+
+            var type = typeof(InstanceMethodClass);
+            var method = CreateMethod(block => block.Return(type.New().Call(type.GetMethod("Mirror"), "foo")));
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("foo", result);            
+        }
+
+        public class InstanceMethodClass
+        {
+            public string Mirror(string s)
+            {
+                return s;
+            }
+        }
+
+        [Test]
+        public void BooleanNot()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(false).BooleanNot()));
+            var result = (bool)method.Invoke(null, null);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void BitwiseNot()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(34754935).BitwiseNot()));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(result, ~34754935);
+        }
+
+        [Test]
+        public void Minus()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(123).Minus()));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(result, -123);
+        }
+
+        [Test]
+        public void Plus()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(123).Plus()));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(result, 123);
+        }
+
+        [Test]
+        public void PreIncrement()
+        {
+            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(1));
+                block.Return(tupleMethod.Call(variable.PreIncrement(), variable));
+            });
+            var result = (Tuple<int, int>)method.Invoke(null, null);
+            Assert.AreEqual(2, result.Item1);
+            Assert.AreEqual(2, result.Item2);
+        }
+
+        [Test]
+        public void PreDecrement()
+        {
+            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(2));
+                block.Return(tupleMethod.Call(variable.PreDecrement(), variable));
+            });
+            var result = (Tuple<int, int>)method.Invoke(null, null);
+            Assert.AreEqual(1, result.Item1);
+            Assert.AreEqual(1, result.Item2);
+        }
+
+        [Test]
+        public void PostIncrement()
+        {
+            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(1));
+                block.Return(tupleMethod.Call(variable.PostIncrement(), variable));
+            });
+            var result = (Tuple<int, int>)method.Invoke(null, null);
+            Assert.AreEqual(1, result.Item1);
+            Assert.AreEqual(2, result.Item2);
+        }
+
+        [Test]
+        public void PostDecrement()
+        {
+            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(int));
+                block.Express(variable.Assign(2));
+                block.Return(tupleMethod.Call(variable.PostDecrement(), variable));
+            });
+            var result = (Tuple<int, int>)method.Invoke(null, null);
+            Assert.AreEqual(2, result.Item1);
+            Assert.AreEqual(1, result.Item2);
         }
     }
 }

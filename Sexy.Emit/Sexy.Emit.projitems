@@ -22,6 +22,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitReturnStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitLiteralExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitUnaryExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitUnaryOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariableDeclarationStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariableReferenceExpression.cs" />

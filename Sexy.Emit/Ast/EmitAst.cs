@@ -54,6 +54,86 @@ namespace Sexy.Emit.Ast
             return new EmitReturnStatement(expression);
         }
 
+        public static EmitUnaryExpression BooleanNot(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.BooleanNot, operand);
+        }
+
+        public static EmitUnaryExpression BitwiseNot(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.BitwiseNot, operand);
+        }
+
+        public static EmitUnaryExpression Minus(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.Minus, operand);
+        }
+
+        public static EmitUnaryExpression Plus(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.Plus, operand);
+        }
+
+        public static EmitUnaryExpression PreIncrement(this EmitVariableDeclarationStatement operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PreIncrement(this EmitVariable operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PreIncrement(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PreDecrement(this EmitVariableDeclarationStatement operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixDecrement, operand);
+        }
+
+        public static EmitUnaryExpression PreDecrement(this EmitVariable operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixDecrement, operand);
+        }
+
+        public static EmitUnaryExpression PreDecrement(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PrefixDecrement, operand);
+        }
+
+        public static EmitUnaryExpression PostIncrement(this EmitVariableDeclarationStatement operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PostIncrement(this EmitVariable operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PostIncrement(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixIncrement, operand);
+        }
+
+        public static EmitUnaryExpression PostDecrement(this EmitVariableDeclarationStatement operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixDecrement, operand);
+        }
+
+        public static EmitUnaryExpression PostDecrement(this EmitVariable operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixDecrement, operand);
+        }
+
+        public static EmitUnaryExpression PostDecrement(this EmitExpression operand)
+        {
+            return new EmitUnaryExpression(EmitUnaryOperator.PostfixDecrement, operand);
+        }
+
         public static EmitBinaryExpression Assign(this EmitVariableDeclarationStatement left, EmitExpression right)
         {
             return new EmitBinaryExpression(left.Variables.Single(), EmitBinaryOperator.Assign, right);
@@ -350,12 +430,12 @@ namespace Sexy.Emit.Ast
             return new EmitLiteralExpression(value);
         }
 
-        public static EmitMethodInvocationExpression Invoke(IEmitMethod method, params EmitExpression[] arguments)
+        public static EmitMethodInvocationExpression Call(IEmitMethod method, params EmitExpression[] arguments)
         {
             return new EmitMethodInvocationExpression(method, arguments);
         }
 
-        public static EmitMethodInvocationExpression Invoke(this EmitExpression target, IEmitMethod method, params EmitExpression[] arguments)
+        public static EmitMethodInvocationExpression Call(this EmitExpression target, IEmitMethod method, params EmitExpression[] arguments)
         {
             return new EmitMethodInvocationExpression(target, method, arguments);
         }
