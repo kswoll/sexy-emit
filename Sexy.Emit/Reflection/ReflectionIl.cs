@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection.Emit;
+using Sexy.Emit.Ast;
 using Sexy.Emit.OpCodes;
 using Sexy.Emit.Utils;
 

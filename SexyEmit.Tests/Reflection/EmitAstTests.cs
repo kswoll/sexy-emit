@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Sexy.Emit;
 using Sexy.Emit.Ast;
 using Sexy.Emit.Reflection;
 
@@ -745,10 +744,19 @@ namespace SexyEmit.Tests.Reflection
             Assert.AreEqual(4, result);
         }
 
-        public void Foo()
+        [Test]
+        public void ForLoop()
         {
-            var x = 12543;
-            var y = (byte)x;
+            var method = CreateMethod(block =>
+            {
+                var otherVariable = block.Declare(typeof(int));
+                block.Express(otherVariable.Assign(EmitAst.Literal(1)));
+                var variable = EmitAst.Declare(new ReflectionType(typeof(int)));
+                block.Statements.Add(EmitAst.For(variable, EmitAst.LessThan(variable, EmitAst.Literal(5)), variable.AddAssign(1).Express(), otherVariable.AddAssign(1).Express()));
+                block.Return(otherVariable);
+            });
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(6, result);
         }
     }
 }
