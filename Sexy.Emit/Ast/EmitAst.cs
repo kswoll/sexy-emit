@@ -439,5 +439,10 @@ namespace Sexy.Emit.Ast
         {
             return new EmitMethodInvocationExpression(target, method, arguments);
         }
+
+        public static EmitCastExpression Cast(this EmitExpression operand, IEmitType type)
+        {
+            return new EmitCastExpression(operand, type);
+        }
     }
 }

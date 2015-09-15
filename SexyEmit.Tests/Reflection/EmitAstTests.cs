@@ -665,5 +665,90 @@ namespace SexyEmit.Tests.Reflection
             Assert.AreEqual(2, result.Item1);
             Assert.AreEqual(1, result.Item2);
         }
+
+        [Test]
+        public void CastIntToByte()
+        {
+            var expected = 12543;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(12543).Cast(typeof(byte))));
+            var result = (byte)method.Invoke(null, null);
+            Assert.AreEqual((byte)expected, result);
+        }
+
+        [Test]
+        public void CastIntToShort()
+        {
+            var expected = 1254323423;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(1254323423).Cast(typeof(short))));
+            var result = (short)method.Invoke(null, null);
+            Assert.AreEqual((short)expected, result);
+        }
+
+        [Test]
+        public void CastIntToInt()
+        {
+            var expected = 1254323423;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(1254323423).Cast(typeof(int))));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CastIntToFloat()
+        {
+            var expected = 123F;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(123).Cast(typeof(float))));
+            var result = (float)method.Invoke(null, null);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CastIntToDouble()
+        {
+            var expected = 1233223523532D;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(1233223523532).Cast(typeof(double))));
+            var result = (double)method.Invoke(null, null);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CastIntToLong()
+        {
+            var expected = 234233L;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(234233).Cast(typeof(long))));
+            var result = (long)method.Invoke(null, null);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CastLongToInt()
+        {
+            var expected = 2342332342342334L;
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(2342332342342334L).Cast(typeof(int))));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual((int)expected, result);
+        }
+
+        [Test]
+        public void CastDoubleToInt()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(4.5D).Cast(typeof(int))));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(4, result);
+        }
+
+        [Test]
+        public void CastFloatToInt()
+        {
+            var method = CreateMethod(block => block.Return(EmitAst.Literal(4.5F).Cast(typeof(int))));
+            var result = (int)method.Invoke(null, null);
+            Assert.AreEqual(4, result);
+        }
+
+        public void Foo()
+        {
+            var x = 12543;
+            var y = (byte)x;
+        }
     }
 }

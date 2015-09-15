@@ -8,6 +8,7 @@ namespace Sexy.Emit
     {
         string Namespace { get; }
         string Name { get; }
+        string FullName { get; }
         IEmitType DeclaringType { get; }
         IEnumerable<IEmitMember> Members { get; }
         bool IsValueType { get; }

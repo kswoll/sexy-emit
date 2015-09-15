@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitBinaryExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitBinaryOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitBlockStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitCastExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitCompilerContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpressionStatement.cs" />

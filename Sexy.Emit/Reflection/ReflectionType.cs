@@ -31,6 +31,7 @@ namespace Sexy.Emit.Reflection
         public bool IsValueType => Type.IsValueType;
         public bool IsInterface => Type.IsInterface;
         public IEmitType BaseType => new ReflectionType(Type.BaseType);
+        public string FullName => Type.FullName;
 
         public override string ToString()
         {
@@ -46,13 +47,14 @@ namespace Sexy.Emit.Reflection
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
+            if (obj is IEmitType) return ((IEmitType)obj).FullName == FullName;
             if (obj.GetType() != GetType()) return false;
             return Equals((ReflectionType)obj);
         }
 
         public override int GetHashCode()
         {
-            return Type?.GetHashCode() ?? 0;
+            return Type.FullName.GetHashCode();
         }
     }
 }

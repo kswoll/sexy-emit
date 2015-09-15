@@ -40,5 +40,10 @@ namespace Sexy.Emit.Reflection
         {
             return new EmitMethodInvocationExpression(target, new ReflectionMethod(method), arguments);
         }
+
+        public static EmitCastExpression Cast(this EmitExpression operand, Type type)
+        {
+            return new EmitCastExpression(operand, new ReflectionType(type));
+        }
     }
 }
