@@ -1,4 +1,5 @@
-﻿using Sexy.Emit.OpCodes;
+﻿using System.Collections.Generic;
+using Sexy.Emit.OpCodes;
 using Sexy.Emit.Utils;
 
 namespace Sexy.Emit
@@ -8,6 +9,7 @@ namespace Sexy.Emit
         IEmitLocal DeclareLocal(IEmitType type);
         IEmitLabel DefineLabel();
         void MarkLabel(IEmitLabel label);
+        IReadOnlyList<IEmitInstruction> Instructions { get; }
         
         /// <summary>
         /// This overload only exists to ease tooling so that it provides a drop down of all possible op codes.  It 

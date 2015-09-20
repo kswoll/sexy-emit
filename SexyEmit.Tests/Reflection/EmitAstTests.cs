@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using Sexy.Emit;
 using Sexy.Emit.Ast;
 using Sexy.Emit.Reflection;
 
@@ -10,11 +11,12 @@ namespace SexyEmit.Tests.Reflection
     [TestFixture]
     public class EmitAstTests
     {
-        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator, Type baseType = null)
+        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator, Type baseType = null, Action<IEmitMethodBuilder> methodInstrumenter = null)
         {
             var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodAssembly");
             var typeBuilder = assemblyBuilder.DefineType("Method");
             var method = typeBuilder.DefineMethod("Foo", typeof(object), isStatic: true);
+            methodInstrumenter?.Invoke(method);
             var block = method.Body;
             ilGenerator(block);
             method.Compile();
@@ -758,5 +760,170 @@ namespace SexyEmit.Tests.Reflection
             var result = (int)method.Invoke(null, null);
             Assert.AreEqual(6, result);
         }
+
+        [Test]
+        public void IfTrue()
+        {
+            var method = CreateMethod(block => block.If(true, EmitAst.Return("foo"), EmitAst.Return("bar")));
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("foo", result);
+        }
+
+        [Test]
+        public void IfFalse()
+        {
+            var method = CreateMethod(block => block.If(false, EmitAst.Return("foo"), EmitAst.Return("bar")));
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("bar", result);
+        }
+
+        [Test]
+        public void IfOnlyTrue()
+        {
+            var method = CreateMethod(block =>
+            {
+                block.If(true, EmitAst.Return("foo"));
+                block.Return("bar");
+            });
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("foo", result);            
+        }
+
+        [Test]
+        public void IfOnlyFalse()
+        {
+            var method = CreateMethod(block =>
+            {
+                block.If(false, EmitAst.Return("foo"));
+                block.Return("bar");
+            });
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("bar", result);            
+        }
+
+        [Test]
+        public void IfNoReturnTrue()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(string));
+                block.If(true, variable.Assign("foo").Express(), variable.Assign("bar").Express());
+                block.Return(variable);
+            });
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("foo", result);            
+        }
+
+        [Test]
+        public void IfNoReturnFalse()
+        {
+            var method = CreateMethod(block =>
+            {
+                var variable = block.Declare(typeof(string));
+                block.If(false, variable.Assign("foo").Express(), variable.Assign("bar").Express());
+                block.Return(variable);
+            });
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("bar", result);            
+        }
+
+        [Test]
+        public void NewSingleDimensionArray()
+        {
+            var method = CreateMethod(block => block.Return(typeof(string).NewArray(5)));
+            var result = (string[])method.Invoke(null, null);
+            Assert.AreEqual(5, result.Length);
+        }
+
+        [Test]
+        public void NewTwoDimensionalArray()
+        {
+            var method = CreateMethod(block => block.Return(typeof(string).NewArray(5, 4)));
+            var result = (string[,])method.Invoke(null, null);
+            Assert.AreEqual(4, result.GetUpperBound(0));
+            Assert.AreEqual(3, result.GetUpperBound(1));
+        }
+
+        [Test]
+        public void SingleDimensionArrayInitializer()
+        {
+            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(5, 4)));
+            var result = (int[])method.Invoke(null, null);
+            Assert.AreEqual(5, result[0]);
+            Assert.AreEqual(4, result[1]);
+        }
+
+        [Test]
+        public void TwoDimensionArrayInitializer()
+        {
+            var source = new[,] {{1, 2}, {3, 4}};
+            Assert.AreEqual(1, source[0, 0]);
+            Assert.AreEqual(2, source[0, 1]);
+            Assert.AreEqual(3, source[1, 0]);
+            Assert.AreEqual(4, source[1, 1]);
+
+            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(source)));
+            var result = (int[,])method.Invoke(null, null);
+            Assert.AreEqual(1, result[0, 0]);
+            Assert.AreEqual(2, result[0, 1]);
+            Assert.AreEqual(3, result[1, 0]);
+            Assert.AreEqual(4, result[1, 1]);
+        }
+
+        [Test]
+        public void ThreeDimensionArrayInitializer()
+        {
+            var source = new[,,] {{{1, 2}, {3, 4}},{{5, 6}, {7, 8}}};
+            Assert.AreEqual(1, source[0, 0, 0]);
+            Assert.AreEqual(2, source[0, 0, 1]);
+            Assert.AreEqual(3, source[0, 1, 0]);
+            Assert.AreEqual(4, source[0, 1, 1]);
+            Assert.AreEqual(5, source[1, 0, 0]);
+            Assert.AreEqual(6, source[1, 0, 1]);
+            Assert.AreEqual(7, source[1, 1, 0]);
+            Assert.AreEqual(8, source[1, 1, 1]);
+
+            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(source)));
+            var result = (int[,,])method.Invoke(null, null);
+            Assert.AreEqual(1, result[0, 0, 0]);
+            Assert.AreEqual(2, result[0, 0, 1]);
+            Assert.AreEqual(3, result[0, 1, 0]);
+            Assert.AreEqual(4, result[0, 1, 1]);
+            Assert.AreEqual(5, result[1, 0, 0]);
+            Assert.AreEqual(6, result[1, 0, 1]);
+            Assert.AreEqual(7, result[1, 1, 0]);
+            Assert.AreEqual(8, result[1, 1, 1]);
+        }
+
+/*
+        [Test]
+        public void ReturnParameter()
+        {
+            IEmitParameter parameter = null;
+            var method = CreateMethod(block => block.Return(parameter))
+        }
+*/
+
+        public void Foo()
+        {
+            var x = new object[1, 2];
+            x[0, 0] = 5;
+        }
+
+/*
+        [Test]
+        public void Foreach()
+        {
+            var method = CreateMethod(block =>
+            {
+                block.Foreach();
+                var variable = block.Declare(typeof(string));
+                block.If(false, variable.Assign("foo").Express(), variable.Assign("bar").Express());
+                block.Return(variable);
+            });
+            var result = (string)method.Invoke(null, null);
+            Assert.AreEqual("bar", result);                        
+        }
+*/
     }
 }

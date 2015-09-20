@@ -390,6 +390,16 @@ namespace Sexy.Emit.Ast
             return new EmitForStatement(initializer, predicate, incrementor, body);
         }
 
+        public static EmitForeachStatement Foreach(this EmitExpression collection, EmitVariable item, EmitStatement statement)
+        {
+            return new EmitForeachStatement(item, collection, statement);
+        }
+
+        public static void Foreach(this EmitBlockStatement block, EmitVariable item, EmitExpression collection, EmitStatement statement)
+        {
+            block.Statements.Add(collection.Foreach(item, statement));
+        }
+
         public static EmitVariableDeclarationStatement Declare(params EmitVariable[] variables)
         {
             return new EmitVariableDeclarationStatement(variables);
@@ -444,5 +454,24 @@ namespace Sexy.Emit.Ast
         {
             return new EmitCastExpression(operand, type);
         }
+
+        public static EmitIfStatement If(this EmitBlockStatement block, EmitExpression condition, EmitStatement statement, EmitStatement @else = null)
+        {
+            var ifStatement = new EmitIfStatement(condition, statement, @else);
+            block.Statements.Add(ifStatement);
+            return ifStatement;
+        }
+
+        public static EmitArrayCreationExpression NewArray(this IEmitType elementType, params EmitExpression[] lengths)
+        {
+            return new EmitArrayCreationExpression(elementType, lengths);
+        }
+/*
+
+        public static EmitArrayCreationExpression NewArray(this IEmitType elementType, params EmitExpression initializer)
+        {
+            return new EmitArrayCreationExpression(elementType, lengths);
+        }
+*/
     }
 }

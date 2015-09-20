@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Linq;
+using System.Reflection.Emit;
 using Sexy.Emit.Ast;
 
 namespace Sexy.Emit.Reflection

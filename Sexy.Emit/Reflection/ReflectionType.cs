@@ -56,5 +56,15 @@ namespace Sexy.Emit.Reflection
         {
             return Type.FullName.GetHashCode();
         }
+
+        public IEmitType MakeGenericType(params IEmitType[] typeArguments)
+        {
+            return new ReflectionType(Type.MakeGenericType(typeArguments.Select(x => ((ReflectionType)x).Type).ToArray()));
+        }
+
+        public IEmitType MakeArrayType(int rank)
+        {
+            return new ReflectionType(Type.MakeArrayType(rank));
+        }
     }
 }

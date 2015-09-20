@@ -36,6 +36,26 @@ namespace Sexy.Emit.Reflection
             return new EmitObjectCreationExpression(new ReflectionType(type));
         }
 
+        public static EmitArrayCreationExpression NewArray(this Type elementType, params EmitExpression[] length)
+        {
+            return new EmitArrayCreationExpression(new ReflectionType(elementType), length);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this Type elementType, params IEmitArrayElement[] elements) 
+        {
+            return new EmitArrayInitializerExpression(new ReflectionType(elementType), elements);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this Type elementType, params EmitExpression[] elements) 
+        {
+            return new EmitArrayInitializerExpression(new ReflectionType(elementType), elements);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this Type elementType, Array elements) 
+        {
+            return new EmitArrayInitializerExpression(new ReflectionType(elementType), (EmitArrayInitializer)elements);
+        }
+
         public static EmitMethodInvocationExpression Invoke(this EmitExpression target, MethodInfo method, params EmitExpression[] arguments)
         {
             return new EmitMethodInvocationExpression(target, new ReflectionMethod(method), arguments);

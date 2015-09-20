@@ -19,6 +19,8 @@ namespace Sexy.Emit.Reflection
                 return new ReflectionConstructorBuilder((ConstructorBuilder)member);
             if (member is ConstructorInfo)
                 return new ReflectionConstructor((ConstructorInfo)member);
+            if (member is PropertyInfo)
+                return new ReflectionProperty((PropertyInfo)member);
 
             return null;
         }

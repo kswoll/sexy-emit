@@ -14,5 +14,7 @@ namespace Sexy.Emit
         bool IsValueType { get; }
         bool IsInterface { get; }
         IEmitType BaseType { get; }
+        IEmitType MakeGenericType(params IEmitType[] typeArguments);
+        IEmitType MakeArrayType(int rank);
     }
 }

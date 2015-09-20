@@ -1,6 +1,8 @@
-﻿namespace Sexy.Emit.Ast
+﻿using System;
+
+namespace Sexy.Emit.Ast
 {
-    public abstract class EmitExpression : IEmitExpression
+    public abstract class EmitExpression : IEmitExpression, IEmitArrayElement
     {
         public abstract void Compile(EmitCompilerContext context, IEmitIl il);
         public abstract IEmitType GetType(IEmitTypeSystem typeSystem);
@@ -33,6 +35,13 @@
         public static implicit operator EmitExpression(bool value)
         {
             return new EmitLiteralExpression(value);
+        }
+
+        int IEmitArrayElement.Length => 0;
+
+        IEmitArrayElement IEmitArrayElement.this[int index]
+        {
+            get { throw new IndexOutOfRangeException(); }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Sexy.Emit.OpCodes;
-
-namespace Sexy.Emit
+﻿namespace Sexy.Emit.OpCodes
 {
     public interface IEmitOpCodeVoid : IEmitOpCode
     {

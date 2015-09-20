@@ -9,6 +9,9 @@
     <Import_RootNamespace>Sexy.Emit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitArrayCreationExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitArrayInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitArrayInitializerExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitAst.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitBinaryExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitBinaryOperator.cs" />
@@ -17,7 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitCompilerContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitExpressionStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitForeachStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitForStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitIfStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitMethodInvocationExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitObjectCreationExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitReturnStatement.cs" />
@@ -28,15 +33,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariableDeclarationStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\EmitVariableReferenceExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ast\IEmitArrayElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\IEmitExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\IEmitReferenceExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ast\IEmitStatement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitOpCode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EmitOpCodeVoid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitTypeKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmitVerifyException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmitVisibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitAssemblyBuilder.cs" />
@@ -45,14 +51,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitFieldBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitIl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitInstruction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitLocal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethodBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEmitOpCodeVoid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitParameterBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmitProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitTypeBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitTypeSystem.cs" />
@@ -75,6 +82,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeTypeMethodOrField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeVoid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeByte.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeConstructor.cs" />
@@ -90,11 +98,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeShort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpCodes\IEmitOpCodeVoid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionInstruction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionAssemblyBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionConstructor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionConstructorBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionEmitAstExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionTypeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionFieldAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionIl.cs" />
