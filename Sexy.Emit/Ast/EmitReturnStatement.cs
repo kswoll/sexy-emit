@@ -13,11 +13,11 @@
         {
             Expression.Compile(context, il);
 
-            var expressionType = Expression.GetType(context.TypeSystem);
-            var voidType = context.TypeSystem.GetType(typeof(void));
+            var expressionType = Expression.GetExpressionType();
+            EmitType voidType = typeof(void);
             if (expressionType.IsValueType && !context.Method.ReturnType.IsValueType && !Equals(expressionType, voidType))
             {
-                il.Emit(EmitOpCodes.Box, Expression.GetType(context.TypeSystem));
+                il.Emit(EmitOpCodes.Box, Expression.GetExpressionType());
             }
 //            else if (!Expression.GetType(context.TypeSystem).IsValueType && !context.Method.ReturnType.IsValueType)
 //            {

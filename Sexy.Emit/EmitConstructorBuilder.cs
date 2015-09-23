@@ -25,9 +25,9 @@ namespace Sexy.Emit
             return parameter;
         }
         
-        public void Compile(IEmitTypeSystem typeSystem)
+        public void Compile()
         {
-            Body.Compile(new EmitCompilerContext(this, typeSystem), Il);
+            Body.Compile(new EmitCompilerContext(this), Il);
         }
     }
 }

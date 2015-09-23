@@ -61,22 +61,22 @@ namespace Sexy.Emit.Ast
                 throw new Exception();
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             if (Value == null)
-                return typeSystem.GetType(typeof(void));
+                return typeof(void);
             else if (Value is int)
-                return typeSystem.GetType(typeof(int));
+                return typeof(int);
             else if (Value is long)
-                return typeSystem.GetType(typeof(long));
+                return typeof(long);
             else if (Value is float)
-                return typeSystem.GetType(typeof(float));
+                return typeof(float);
             else if (Value is double)
-                return typeSystem.GetType(typeof(double));
+                return typeof(double);
             else if (Value is bool)
-                return typeSystem.GetType(typeof(bool));
+                return typeof(bool);
             else if (Value is string)
-                return typeSystem.GetType(typeof(string));
+                return typeof(string);
             else
                 throw new Exception();
         }

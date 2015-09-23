@@ -72,7 +72,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)IEmitMethodOrConstructorBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmitSchemaVisitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IEmitTypeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeByte.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OpCodes\EmitOpCodeConstructor.cs" />

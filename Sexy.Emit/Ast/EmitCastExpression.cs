@@ -14,20 +14,20 @@
         public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             Operand.Compile(context, il);
-            var operandType = Operand.GetType(context.TypeSystem);
+            var operandType = Operand.GetExpressionType();
 
-            var typeInt = context.TypeSystem.GetType(typeof(int));
-            var typeUint = context.TypeSystem.GetType(typeof(uint));
-            var typeShort = context.TypeSystem.GetType(typeof(short));
-            var typeUshort = context.TypeSystem.GetType(typeof(ushort));
-            var typeByte = context.TypeSystem.GetType(typeof(byte));
-            var typeSbyte = context.TypeSystem.GetType(typeof(sbyte));
-            var typeLong = context.TypeSystem.GetType(typeof(long));
-            var typeUlong = context.TypeSystem.GetType(typeof(ulong));
-            var typeDouble = context.TypeSystem.GetType(typeof(double));
-            var typeFloat = context.TypeSystem.GetType(typeof(float));
-            var typeDecimal = context.TypeSystem.GetType(typeof(decimal));
-            var typeBool = context.TypeSystem.GetType(typeof(bool));
+            EmitType typeInt = typeof(int);
+            EmitType typeUint = typeof(uint);
+            EmitType typeShort = typeof(short);
+            EmitType typeUshort = typeof(ushort);
+            EmitType typeByte = typeof(byte);
+            EmitType typeSbyte = typeof(sbyte);
+            EmitType typeLong = typeof(long);
+            EmitType typeUlong = typeof(ulong);
+            EmitType typeDouble = typeof(double);
+            EmitType typeFloat = typeof(float);
+            EmitType typeDecimal = typeof(decimal);
+            EmitType typeBool = typeof(bool);
 
             var typeIs32Bit = Equals(Type, typeByte) || Equals(Type, typeShort) || Equals(Type, typeInt) || Equals(Type, typeSbyte) || Equals(Type, typeUshort) || Equals(Type, typeUint);
             var operandIs32Bit = Equals(operandType, typeByte) || Equals(operandType, typeShort) || Equals(operandType, typeInt) || Equals(operandType, typeSbyte) || Equals(operandType, typeUshort) || Equals(operandType, typeUint);
@@ -96,7 +96,7 @@
             il.Emit(EmitOpCodes.Castclass, Type);
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             return Type;
         }

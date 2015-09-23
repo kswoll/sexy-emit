@@ -44,7 +44,7 @@ namespace Sexy.Emit.Ast
             il.Emit(EmitOpCodes.Newobj, Constructor);
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             return Type;
         }

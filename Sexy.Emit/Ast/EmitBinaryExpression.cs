@@ -170,12 +170,12 @@ namespace Sexy.Emit.Ast
             }            
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             if (IsOperatorComparison())
-                return typeSystem.GetType(typeof(bool));
+                return typeof(bool);
             else
-                return Left.GetType(typeSystem);  // Eventually apply widest-type semantics
+                return Left.GetExpressionType(); // Eventually apply widest-type semantics
         }
     }
 }

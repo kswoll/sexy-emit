@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Sexy.Emit.Utils;
 
 namespace Sexy.Emit
 {
@@ -33,6 +35,11 @@ namespace Sexy.Emit
         public static implicit operator EmitMethod(MethodInfo method)
         {
             return (EmitMethodReference)method;
+        }
+
+        public static implicit operator MethodInfo(EmitMethod method)
+        {
+            return ((Type)method.DeclaringType).FindMethod(method.Name, method.Parameters.Select(x => (Type)x.ParameterType).ToArray());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Sexy.Emit.Ast
     public abstract class EmitExpression : IEmitExpression, IEmitArrayElement
     {
         public abstract void Compile(EmitCompilerContext context, EmitIl il);
-        public abstract EmitType GetType(IEmitTypeSystem typeSystem);
+        public abstract EmitType GetExpressionType();
 
         public static implicit operator EmitExpression(string value)
         {

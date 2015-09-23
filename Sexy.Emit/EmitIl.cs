@@ -24,7 +24,7 @@ namespace Sexy.Emit
             {
                 foreach (var label in pendingLabels)
                 {
-                    label.TargetInstruction = instruction;
+                    instruction.AddLabel(label);
                 }
                 pendingLabels.Clear();
             }

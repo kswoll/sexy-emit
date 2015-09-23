@@ -45,7 +45,7 @@ namespace Sexy.Emit.Ast
 
         public override void Compile(EmitCompilerContext context, EmitIl il)
         {
-            var arrayType = GetType(context.TypeSystem);
+            var arrayType = GetExpressionType();
 
             if (Lengths.Count == 1)
             {
@@ -102,7 +102,7 @@ namespace Sexy.Emit.Ast
             }
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             return Type.MakeArrayType(Rank);
         }

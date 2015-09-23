@@ -35,7 +35,7 @@
                 {
                     Operand.Compile(context, il);
 
-                    var local = il.DeclareLocal(Operand.GetType(context.TypeSystem));
+                    var local = il.DeclareLocal(Operand.GetExpressionType());
                     il.Emit(EmitOpCodes.Stloc, local);
 
                     ((IEmitReferenceExpression)Operand).CompileAssignment(context, il, () =>
@@ -54,7 +54,7 @@
                 {
                     Operand.Compile(context, il);
 
-                    var local = il.DeclareLocal(Operand.GetType(context.TypeSystem));
+                    var local = il.DeclareLocal(Operand.GetExpressionType());
                     il.Emit(EmitOpCodes.Stloc, local);
 
                     ((IEmitReferenceExpression)Operand).CompileAssignment(context, il, () =>
@@ -75,7 +75,7 @@
                     il.Emit(EmitOpCodes.Ldc_I4_1);
                     il.Emit(EmitOpCodes.Sub);
 
-                    var local = il.DeclareLocal(Operand.GetType(context.TypeSystem));
+                    var local = il.DeclareLocal(Operand.GetExpressionType());
                     il.Emit(EmitOpCodes.Stloc, local);
 
                     ((IEmitReferenceExpression)Operand).CompileAssignment(context, il, () =>
@@ -90,7 +90,7 @@
                     il.Emit(EmitOpCodes.Ldc_I4_1);
                     il.Emit(EmitOpCodes.Add);
 
-                    var local = il.DeclareLocal(Operand.GetType(context.TypeSystem));
+                    var local = il.DeclareLocal(Operand.GetExpressionType());
                     il.Emit(EmitOpCodes.Stloc, local);
 
                     ((IEmitReferenceExpression)Operand).CompileAssignment(context, il, () =>
@@ -102,9 +102,9 @@
             }
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
-            return Operand.GetType(typeSystem);
+            return Operand.GetExpressionType();
         }
     }
 }

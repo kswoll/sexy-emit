@@ -25,7 +25,7 @@ namespace Sexy.Emit.Ast
             il.Emit(EmitOpCodes.Stloc, local);
         }
 
-        public override EmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetExpressionType()
         {
             return Variable.Type;
         }

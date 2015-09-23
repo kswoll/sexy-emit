@@ -21,11 +21,11 @@ namespace Sexy.Emit.Ast
             var item = il.DeclareLocal(Item.Type);
             Item.SetData(context, item);
 
-            var genericEnumerableType = context.TypeSystem.GetType(typeof(IEnumerable<>));
+            EmitType genericEnumerableType = typeof(IEnumerable<>);
             var enumerableType = genericEnumerableType.MakeGenericType(Item.Type);
             var getEnumeratorMethod = enumerableType.Members.OfType<EmitMethod>().Single(x => x.Name == nameof(IEnumerable<object>.GetEnumerator));
 
-            var genericEnumeratorType = context.TypeSystem.GetType(typeof(IEnumerator<>));
+            EmitType genericEnumeratorType = typeof(IEnumerator<>);
             var enumeratorType = genericEnumeratorType.MakeGenericType(Item.Type);
             var moveNextMethod = enumerableType.Members.OfType<EmitMethod>().Single(x => x.Name == nameof(IEnumerator<object>.MoveNext));
             var getCurrentMethod = enumerableType.Members.OfType<EmitProperty>().Single(x => x.Name == nameof(IEnumerator<object>.Current)).GetMethod;

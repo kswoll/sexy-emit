@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Sexy.Emit
 {
@@ -25,6 +26,11 @@ namespace Sexy.Emit
         public static implicit operator EmitField(FieldInfo field)
         {
             return (EmitFieldReference)field;
+        }
+
+        public static implicit operator FieldInfo(EmitField field)
+        {
+            return ((Type)field.DeclaringType).GetField(field.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         }
     }
 }

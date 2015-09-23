@@ -35,5 +35,10 @@ namespace Sexy.Emit
         {
             return (EmitPropertyReference)property;
         }
+
+        public static implicit operator PropertyInfo(EmitProperty property)
+        {
+            return ((Type)property.DeclaringType).GetProperty(property.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+        }
     }
 }
