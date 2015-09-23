@@ -15,7 +15,7 @@ namespace Sexy.Emit.Ast
             Else = @else;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             Condition.Compile(context, il);
             var ifNotTrue = il.DefineLabel();
@@ -25,7 +25,7 @@ namespace Sexy.Emit.Ast
 
             if (Else != null)
             {
-                IEmitLabel end = null; 
+                EmitLabel end = null; 
                 if (!statementReturned)
                 {
                     end = il.DefineLabel();

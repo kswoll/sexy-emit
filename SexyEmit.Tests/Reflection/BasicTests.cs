@@ -2,7 +2,6 @@
 using System.Reflection;
 using NUnit.Framework;
 using Sexy.Emit;
-using Sexy.Emit.OpCodes;
 using Sexy.Emit.Reflection;
 
 namespace SexyEmit.Tests.Reflection
@@ -13,10 +12,11 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void SetAndGetValueFromField()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("SetAndGetValueFromFieldAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("SetAndGetValueFromField");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             typeBuilder.DefineField("foo", typeof(string));
-            var type = typeBuilder.CreateType();
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
             var instance = Activator.CreateInstance(type);
             var field = type.GetField("foo");
 
@@ -28,10 +28,12 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void StaticFieldIsStatic()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("TestAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("TestType");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             typeBuilder.DefineField("foo", typeof(string), isStatic: true);
-            var type = typeBuilder.CreateType();
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
+
             var field = type.GetField("foo");
             Assert.IsTrue(field.IsStatic);
         }
@@ -39,13 +41,14 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void MethodReturnsString()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodReturnsStringAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("MethodReturnsString");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(string));
             method.Il.Emit(EmitOpCodes.Ldstr, "bar");
             method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("Foo");
 
@@ -56,12 +59,13 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void PrivateMethodIsPrivate()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("PrivateMethodIsPrivateAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("PrivateMethodIsPrivate");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Private);
             method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsTrue(methodInfo.IsPrivate);
@@ -70,12 +74,13 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void ProtectedMethodIsProtected()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("ProtectedMethodIsProtectedAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("ProtectedMethodIsProtected");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Protected);
             method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsTrue((methodInfo.Attributes & MethodAttributes.Family) == MethodAttributes.Family);
@@ -84,12 +89,13 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InternalMethodIsInternal()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("InternalMethodIsInternalAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("InternalMethodIsInternal");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Internal);
             method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsTrue((methodInfo.Attributes & MethodAttributes.Assembly) == MethodAttributes.Assembly);
@@ -98,12 +104,13 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void StaticMethodIsStatic()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("StaticMethodIsStaticAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("StaticMethodIsStatic");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Public, isStatic: true);
             method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var methodInfo = type.GetMethod("Foo");
 
             Assert.IsTrue(methodInfo.IsStatic);
@@ -112,11 +119,12 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void ClassExtendsBaseType()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("StaticMethodIsStaticAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("StaticMethodIsStatic");
-            typeBuilder.SetBaseType(typeof(CustomBaseType));
-
-            var type = typeBuilder.CreateType();
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass", baseType: typeof(CustomBaseType));
+            var method = typeBuilder.DefineMethod("Foo", typeof(void), EmitVisibility.Public, isStatic: true);
+            method.Il.Emit(EmitOpCodes.Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
             Assert.IsTrue(typeof(CustomBaseType).IsAssignableFrom(type));
         }

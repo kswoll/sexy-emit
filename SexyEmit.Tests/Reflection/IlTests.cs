@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Sexy.Emit;
 using Sexy.Emit.Reflection;
 using static Sexy.Emit.EmitOpCodes;
 
@@ -11,16 +12,17 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void DeclareVariable()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("TestAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("TestType");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
             var method = typeBuilder.DefineMethod("Foo", typeof(string));
             var variable = method.Il.DeclareLocal(typeof(string));
             method.Il.Emit(Ldstr, "bar");
             method.Il.Emit(Stloc, variable);
             method.Il.Emit(Ldloc, variable);
             method.Il.Emit(Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("Foo");
 
@@ -31,9 +33,10 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void GotoLabel()
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("TestAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("TestType");
-            var method = typeBuilder.DefineMethod("Foo", typeof(int));
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("TestAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "TestClass");
+            var method = typeBuilder.DefineMethod("Foo", typeof(string));
             var variable = method.Il.DeclareLocal(typeof(int));
             var label = method.Il.DefineLabel();
             method.Il.Emit(Ldc_I4_0);
@@ -48,8 +51,8 @@ namespace SexyEmit.Tests.Reflection
             method.Il.Emit(Blt, label);
             method.Il.Emit(Ldloc, variable);
             method.Il.Emit(Ret);
+            var type = provider.Compile(assemblyBuilder).GetType("TestClass");
 
-            var type = typeBuilder.CreateType();
             var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("Foo");
 

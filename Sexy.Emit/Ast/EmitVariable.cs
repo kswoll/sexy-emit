@@ -2,19 +2,19 @@
 {
     public class EmitVariable 
     {
-        public IEmitType Type { get; }
+        public EmitType Type { get; }
 
-        public EmitVariable(IEmitType type)
+        public EmitVariable(EmitType type)
         {
             Type = type;
         }
 
-        public IEmitLocal GetData(EmitCompilerContext context)
+        public EmitLocal GetData(EmitCompilerContext context)
         {
-            return (IEmitLocal)context.Data[this];
+            return (EmitLocal)context.Data[this];
         }
 
-        public void SetData(EmitCompilerContext context, IEmitLocal local)
+        public void SetData(EmitCompilerContext context, EmitLocal local)
         {
             context.Data[this] = local;
         }

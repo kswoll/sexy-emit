@@ -16,19 +16,19 @@ namespace Sexy.Emit.Ast
             Statement = statement;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             var item = il.DeclareLocal(Item.Type);
             Item.SetData(context, item);
 
             var genericEnumerableType = context.TypeSystem.GetType(typeof(IEnumerable<>));
             var enumerableType = genericEnumerableType.MakeGenericType(Item.Type);
-            var getEnumeratorMethod = enumerableType.Members.OfType<IEmitMethod>().Single(x => x.Name == nameof(IEnumerable<object>.GetEnumerator));
+            var getEnumeratorMethod = enumerableType.Members.OfType<EmitMethod>().Single(x => x.Name == nameof(IEnumerable<object>.GetEnumerator));
 
             var genericEnumeratorType = context.TypeSystem.GetType(typeof(IEnumerator<>));
             var enumeratorType = genericEnumeratorType.MakeGenericType(Item.Type);
-            var moveNextMethod = enumerableType.Members.OfType<IEmitMethod>().Single(x => x.Name == nameof(IEnumerator<object>.MoveNext));
-            var getCurrentMethod = enumerableType.Members.OfType<IEmitProperty>().Single(x => x.Name == nameof(IEnumerator<object>.Current)).GetMethod;
+            var moveNextMethod = enumerableType.Members.OfType<EmitMethod>().Single(x => x.Name == nameof(IEnumerator<object>.MoveNext));
+            var getCurrentMethod = enumerableType.Members.OfType<EmitProperty>().Single(x => x.Name == nameof(IEnumerator<object>.Current)).GetMethod;
 
             var enumerator = il.DeclareLocal(enumeratorType);
 
@@ -38,8 +38,8 @@ namespace Sexy.Emit.Ast
 
             var topOfLoop = il.DefineLabel();
             var end = il.DefineLabel();
-            il.MarkLabel(topOfLoop);
 
+            il.MarkLabel(topOfLoop);
             il.Emit(EmitOpCodes.Ldloc, enumerator);
             il.Emit(EmitOpCodes.Callvirt, moveNextMethod);
             il.Emit(EmitOpCodes.Brfalse, end);

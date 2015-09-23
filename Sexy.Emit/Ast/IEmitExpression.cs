@@ -2,6 +2,6 @@
 {
     public interface IEmitExpression
     {
-        void Compile(EmitCompilerContext context, IEmitIl il);
+        void Compile(EmitCompilerContext context, EmitIl il);
     }
 }

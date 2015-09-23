@@ -11,7 +11,7 @@
             Operand = operand;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             switch (Operator)
             {
@@ -102,7 +102,7 @@
             }
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Operand.GetType(typeSystem);
         }

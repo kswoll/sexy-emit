@@ -4,8 +4,8 @@ namespace Sexy.Emit.Ast
 {
     public abstract class EmitExpression : IEmitExpression, IEmitArrayElement
     {
-        public abstract void Compile(EmitCompilerContext context, IEmitIl il);
-        public abstract IEmitType GetType(IEmitTypeSystem typeSystem);
+        public abstract void Compile(EmitCompilerContext context, EmitIl il);
+        public abstract EmitType GetType(IEmitTypeSystem typeSystem);
 
         public static implicit operator EmitExpression(string value)
         {

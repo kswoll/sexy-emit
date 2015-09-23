@@ -4,11 +4,11 @@ namespace Sexy.Emit.Ast
 {
     public class EmitCompilerContext
     {
-        public IEmitMethodBuilder Method { get; }
+        public IEmitMethodOrConstructorBuilder Method { get; }
         public IEmitTypeSystem TypeSystem { get; }
         public Dictionary<object, object> Data { get; }
 
-        public EmitCompilerContext(IEmitMethodBuilder method, IEmitTypeSystem typeSystem)
+        public EmitCompilerContext(IEmitMethodOrConstructorBuilder method, IEmitTypeSystem typeSystem)
         {
             Method = method;
             TypeSystem = typeSystem;

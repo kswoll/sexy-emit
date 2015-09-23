@@ -8,10 +8,10 @@ namespace Sexy.Emit.Ast
     public class EmitMethodInvocationExpression : EmitExpression
     {
         public EmitExpression Target { get; }
-        public IEmitMethod Method { get; }
+        public EmitMethod Method { get; }
         public List<EmitExpression> Arguments { get; } = new List<EmitExpression>();
 
-        public EmitMethodInvocationExpression(IEmitMethod method, params EmitExpression[] arguments)
+        public EmitMethodInvocationExpression(EmitMethod method, params EmitExpression[] arguments)
         {
             if (!method.IsStatic)
                 throw new Exception("Non-static method requires a target.");
@@ -20,7 +20,7 @@ namespace Sexy.Emit.Ast
             Arguments.AddRange(arguments);
         }
 
-        public EmitMethodInvocationExpression(EmitExpression target, IEmitMethod method, params EmitExpression[] arguments)
+        public EmitMethodInvocationExpression(EmitExpression target, EmitMethod method, params EmitExpression[] arguments)
         {
             if (method.IsStatic && target != null)
                 throw new Exception("Static method cannot have a target");
@@ -30,7 +30,7 @@ namespace Sexy.Emit.Ast
             Arguments.AddRange(arguments);
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             if (Arguments.Count != Method.Parameters.Count())
                 throw new Exception($"Incorrect number of arguments passed to method {Method}");
@@ -44,7 +44,7 @@ namespace Sexy.Emit.Ast
             il.Emit(opCode, Method);
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Method.ReturnType;
         }

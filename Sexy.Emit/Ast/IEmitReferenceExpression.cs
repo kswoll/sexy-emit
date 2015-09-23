@@ -4,6 +4,6 @@ namespace Sexy.Emit.Ast
 {
     public interface IEmitReferenceExpression : IEmitExpression
     {
-        void CompileAssignment(EmitCompilerContext context, IEmitIl il, Action compileValue);
+        void CompileAssignment(EmitCompilerContext context, EmitIl il, Action compileValue);
     }
 }

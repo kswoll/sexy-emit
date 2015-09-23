@@ -9,7 +9,7 @@
             Expression = expression;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             Expression.Compile(context, il);
             il.Emit(EmitOpCodes.Pop);

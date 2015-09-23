@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sexy.Emit.Ast
 {
-    public class EmitVariableDeclarationStatement : EmitStatement<IEmitLocal>
+    public class EmitVariableDeclarationStatement : EmitStatement<EmitLocal>
     {
         public List<EmitVariable> Variables { get; }
 
@@ -12,7 +12,7 @@ namespace Sexy.Emit.Ast
             Variables = new List<EmitVariable>(variables);
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             foreach (var variable in Variables)
             {

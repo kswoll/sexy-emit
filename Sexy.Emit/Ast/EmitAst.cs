@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Sexy.Emit.Ast
 {
@@ -35,7 +36,7 @@ namespace Sexy.Emit.Ast
             return result;
         }
 
-        public static EmitVariableDeclarationStatement Declare(this EmitBlockStatement block, IEmitType type)
+        public static EmitVariableDeclarationStatement Declare(this EmitBlockStatement block, EmitType type)
         {
             var result = Declare(type);
             block.Statements.Add(result);
@@ -405,7 +406,7 @@ namespace Sexy.Emit.Ast
             return new EmitVariableDeclarationStatement(variables);
         }
 
-        public static EmitVariableDeclarationStatement Declare(IEmitType type)
+        public static EmitVariableDeclarationStatement Declare(EmitType type)
         {
             return new EmitVariableDeclarationStatement(new EmitVariable(type));
         }
@@ -440,17 +441,17 @@ namespace Sexy.Emit.Ast
             return new EmitLiteralExpression(value);
         }
 
-        public static EmitMethodInvocationExpression Call(IEmitMethod method, params EmitExpression[] arguments)
+        public static EmitMethodInvocationExpression Call(this EmitMethod method, params EmitExpression[] arguments)
         {
             return new EmitMethodInvocationExpression(method, arguments);
         }
 
-        public static EmitMethodInvocationExpression Call(this EmitExpression target, IEmitMethod method, params EmitExpression[] arguments)
+        public static EmitMethodInvocationExpression Call(this EmitExpression target, EmitMethod method, params EmitExpression[] arguments)
         {
             return new EmitMethodInvocationExpression(target, method, arguments);
         }
 
-        public static EmitCastExpression Cast(this EmitExpression operand, IEmitType type)
+        public static EmitCastExpression Cast(this EmitExpression operand, EmitType type)
         {
             return new EmitCastExpression(operand, type);
         }
@@ -462,10 +463,51 @@ namespace Sexy.Emit.Ast
             return ifStatement;
         }
 
-        public static EmitArrayCreationExpression NewArray(this IEmitType elementType, params EmitExpression[] lengths)
+        public static EmitObjectCreationExpression New(this EmitConstructor constructor, params EmitExpression[] arguments)
         {
-            return new EmitArrayCreationExpression(elementType, lengths);
+            return new EmitObjectCreationExpression(constructor, arguments);
         }
+
+        public static EmitObjectCreationExpression New(this EmitType type)
+        {
+            if (!type.IsValueType)
+            {
+                var constructor = type.Members.OfType<EmitConstructor>().Single(x => x.Parameters.Count == 0);
+                return constructor.New();
+            }
+            return new EmitObjectCreationExpression(type);
+        }
+
+        public static EmitArrayCreationExpression NewArray(this EmitType elementType, params EmitExpression[] length)
+        {
+            return new EmitArrayCreationExpression(elementType, length);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this EmitType elementType, params IEmitArrayElement[] elements) 
+        {
+            return new EmitArrayInitializerExpression(elementType, elements);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this EmitType elementType, params EmitExpression[] elements) 
+        {
+            return new EmitArrayInitializerExpression(elementType, elements);
+        }
+
+        public static EmitArrayInitializerExpression NewArrayFrom(this EmitType elementType, Array elements) 
+        {
+            return new EmitArrayInitializerExpression(elementType, elements);
+        }
+
+        public static EmitMethodInvocationExpression Invoke(this EmitExpression target, EmitMethod method, params EmitExpression[] arguments)
+        {
+            return new EmitMethodInvocationExpression(target, method, arguments);
+        }
+
+        public static EmitCastExpression Cast(this EmitExpression operand, Type type)
+        {
+            return new EmitCastExpression(operand, type);
+        }
+
 /*
 
         public static EmitArrayCreationExpression NewArray(this IEmitType elementType, params EmitExpression initializer)

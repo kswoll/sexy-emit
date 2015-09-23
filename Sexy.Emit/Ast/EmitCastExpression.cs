@@ -3,15 +3,15 @@
     public class EmitCastExpression : EmitExpression
     {
         public EmitExpression Operand { get; }
-        public IEmitType Type { get; }
+        public EmitType Type { get; }
 
-        public EmitCastExpression(EmitExpression operand, IEmitType type)
+        public EmitCastExpression(EmitExpression operand, EmitType type)
         {
             Operand = operand;
             Type = type;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             Operand.Compile(context, il);
             var operandType = Operand.GetType(context.TypeSystem);
@@ -96,7 +96,7 @@
             il.Emit(EmitOpCodes.Castclass, Type);
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Type;
         }

@@ -15,7 +15,7 @@
             Body = body;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             Initializer?.Compile(context, il);
 

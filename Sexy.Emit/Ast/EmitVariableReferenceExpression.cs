@@ -11,13 +11,13 @@ namespace Sexy.Emit.Ast
             Variable = variable;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             var local = Variable.GetData(context);
             il.Emit(EmitOpCodes.Ldloc, local);
         }
 
-        public void CompileAssignment(EmitCompilerContext context, IEmitIl il, Action compileValue)
+        public void CompileAssignment(EmitCompilerContext context, EmitIl il, Action compileValue)
         {
             var local = Variable.GetData(context);
             compileValue();
@@ -25,7 +25,7 @@ namespace Sexy.Emit.Ast
             il.Emit(EmitOpCodes.Stloc, local);
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Variable.Type;
         }

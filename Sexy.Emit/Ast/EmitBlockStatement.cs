@@ -11,7 +11,7 @@ namespace Sexy.Emit.Ast
             Statements = new List<IEmitStatement>(statements);
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             foreach (var statement in Statements)
             {

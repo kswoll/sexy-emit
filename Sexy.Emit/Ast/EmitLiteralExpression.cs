@@ -41,7 +41,7 @@ namespace Sexy.Emit.Ast
             Value = null;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             if (Value == null)
                 il.Emit(EmitOpCodes.Ldnull);
@@ -61,7 +61,7 @@ namespace Sexy.Emit.Ast
                 throw new Exception();
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             if (Value == null)
                 return typeSystem.GetType(typeof(void));

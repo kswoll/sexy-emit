@@ -6,16 +6,16 @@ namespace Sexy.Emit.Ast
 {
     public class EmitArrayInitializerExpression : EmitExpression
     {
-        public IEmitType Type { get; }
+        public EmitType Type { get; }
         public EmitArrayInitializer Initializer { get; }
         public int Rank { get; }
         public IReadOnlyList<int> Lengths { get; }
 
-        public EmitArrayInitializerExpression(IEmitType type, params IEmitArrayElement[] elements) : this(type, new EmitArrayInitializer(elements))
+        public EmitArrayInitializerExpression(EmitType type, params IEmitArrayElement[] elements) : this(type, new EmitArrayInitializer(elements))
         {
         }
 
-        public EmitArrayInitializerExpression(IEmitType type, EmitArrayInitializer initializer)
+        public EmitArrayInitializerExpression(EmitType type, EmitArrayInitializer initializer)
         {
             Type = type;
             Initializer = initializer;
@@ -43,7 +43,7 @@ namespace Sexy.Emit.Ast
             Lengths = lengths.ToArray();
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             var arrayType = GetType(context.TypeSystem);
 
@@ -62,8 +62,8 @@ namespace Sexy.Emit.Ast
             }
             else
             {
-                var constructor = arrayType.Members.OfType<IEmitConstructor>().Single(x => x.Parameters.Count() == Rank);
-                var setter = arrayType.Members.OfType<IEmitMethod>().Single(x => x.Name == "Set");
+                var constructor = arrayType.Members.OfType<EmitConstructor>().Single(x => x.Parameters.Count() == Rank);
+                var setter = arrayType.Members.OfType<EmitMethod>().Single(x => x.Name == "Set");
                 foreach (var length in Lengths)
                     il.Emit(EmitOpCodes.Ldc_I4, length);
                 il.Emit(EmitOpCodes.Newobj, constructor);
@@ -102,7 +102,7 @@ namespace Sexy.Emit.Ast
             }
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Type.MakeArrayType(Rank);
         }

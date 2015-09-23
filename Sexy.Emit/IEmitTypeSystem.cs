@@ -4,6 +4,6 @@ namespace Sexy.Emit
 {
     public interface IEmitTypeSystem
     {
-        IEmitType GetType(Type type);
+        EmitType GetType(Type type);
     }
 }

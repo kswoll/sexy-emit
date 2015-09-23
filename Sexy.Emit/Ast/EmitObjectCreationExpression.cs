@@ -5,16 +5,16 @@ namespace Sexy.Emit.Ast
 {
     public class EmitObjectCreationExpression : EmitExpression
     {
-        public IEmitType Type { get; }
-        public IEmitConstructor Constructor { get; }
+        public EmitType Type { get; }
+        public EmitConstructor Constructor { get; }
         public List<EmitExpression> Arguments { get; } = new List<EmitExpression>();
 
-        public EmitObjectCreationExpression(IEmitType valueType)
+        public EmitObjectCreationExpression(EmitType valueType)
         {
             Type = valueType;
         }
 
-        public EmitObjectCreationExpression(IEmitConstructor constructor, params EmitExpression[] arguments)
+        public EmitObjectCreationExpression(EmitConstructor constructor, params EmitExpression[] arguments)
         {
             if (constructor.IsStatic)
                 throw new ArgumentException("Cannot create an instance using a static constructor", nameof(constructor));
@@ -24,7 +24,7 @@ namespace Sexy.Emit.Ast
             Arguments.AddRange(arguments);
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             // Special handling for value types without a constructor
             if (Constructor == null)
@@ -44,7 +44,7 @@ namespace Sexy.Emit.Ast
             il.Emit(EmitOpCodes.Newobj, Constructor);
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             return Type;
         }

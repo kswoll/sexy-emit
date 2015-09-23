@@ -2,7 +2,7 @@
 {
     public abstract class EmitStatement : IEmitStatement
     {
-        public abstract void Compile(EmitCompilerContext context, IEmitIl il);
+        public abstract void Compile(EmitCompilerContext context, EmitIl il);
         
     }
 

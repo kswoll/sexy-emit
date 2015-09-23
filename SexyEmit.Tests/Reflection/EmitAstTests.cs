@@ -11,18 +11,18 @@ namespace SexyEmit.Tests.Reflection
     [TestFixture]
     public class EmitAstTests
     {
-        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator, Type baseType = null, Action<IEmitMethodBuilder> methodInstrumenter = null)
+        private MethodInfo CreateMethod(Action<EmitBlockStatement> ilGenerator, Type baseType = null, Action<EmitMethodBuilder> methodInstrumenter = null)
         {
-            var assemblyBuilder = ReflectionAssemblyBuilder.Create("MethodAssembly");
-            var typeBuilder = assemblyBuilder.DefineType("Method");
+            var provider = new ReflectionProvider();
+            var assemblyBuilder = new EmitAssemblyBuilder("MethodAssembly");
+            var typeBuilder = assemblyBuilder.DefineType("", "Method");
             var method = typeBuilder.DefineMethod("Foo", typeof(object), isStatic: true);
             methodInstrumenter?.Invoke(method);
             var block = method.Body;
             ilGenerator(block);
-            method.Compile();
 
-            var type = typeBuilder.CreateType();
-            assemblyBuilder.AssemblyBuilder.Save("assembly.dll");
+            var assembly = provider.Compile(assemblyBuilder);
+            var type = assembly.GetType(typeBuilder.FullName);
             var methodInfo = type.GetMethod("Foo");
 
             return methodInfo;
@@ -404,8 +404,8 @@ namespace SexyEmit.Tests.Reflection
         public void BooleanAndShortCircuitsTrue()
         {
             ShortCircuitsData.Reset();
-            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
-            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            EmitMethod returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            EmitMethod returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
             var method = CreateMethod(block => block.Return(returnFalse.Call().BooleanAnd(returnTrue.Call())));
             var result = (bool)method.Invoke(null, null);
             Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnFalse);
@@ -417,8 +417,8 @@ namespace SexyEmit.Tests.Reflection
         public void BooleanAndShortCircuitsFalse()
         {
             ShortCircuitsData.Reset();
-            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
-            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            EmitMethod returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            EmitMethod returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
             var method = CreateMethod(block => block.Return(returnTrue.Call().BooleanAnd(returnFalse.Call())));
             var result = (bool)method.Invoke(null, null);
             Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnFalse);
@@ -430,8 +430,8 @@ namespace SexyEmit.Tests.Reflection
         public void BooleanOrShortCircuitsTrue()
         {
             ShortCircuitsData.Reset();
-            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
-            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            EmitMethod returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            EmitMethod returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
             var method = CreateMethod(block => block.Return(returnTrue.Call().BooleanOr(returnFalse.Call())));
             var result = (bool)method.Invoke(null, null);
             Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnTrue);
@@ -443,8 +443,8 @@ namespace SexyEmit.Tests.Reflection
         public void BooleanOrShortCircuitsFalse()
         {
             ShortCircuitsData.Reset();
-            var returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
-            var returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
+            EmitMethod returnTrue = typeof(ShortCircuitsData).GetMethod("ReturnTrue");
+            EmitMethod returnFalse = typeof(ShortCircuitsData).GetMethod("ReturnFalse");
             var method = CreateMethod(block => block.Return(returnFalse.Call().BooleanOr(returnTrue.Call())));
             var result = (bool)method.Invoke(null, null);
             Assert.AreEqual(1, ShortCircuitsData.NumberOfCallsToReturnTrue);
@@ -479,7 +479,11 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateClass()
         {
-            var method = CreateMethod(block => block.Return(typeof(InstanceClass).GetConstructor(new Type[0]).New()));
+            var method = CreateMethod(block =>
+            {
+                EmitConstructor constructorInfo = typeof(InstanceClass).GetConstructor(new Type[0]);
+                block.Return(constructorInfo.New());
+            });
             var result = method.Invoke(null, null);
             Assert.IsTrue(result is InstanceClass);
         }
@@ -491,7 +495,11 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateClassWithConstructor()
         {
-            var method = CreateMethod(block => block.Return(typeof(InstanceClassWithConstructor).GetConstructors()[0].New(1, "foo")));
+            var method = CreateMethod(block =>
+            {
+                EmitConstructor constructor = typeof(InstanceClassWithConstructor).GetConstructors()[0];
+                block.Return(constructor.New(1, "foo"));
+            });
             var result = (InstanceClassWithConstructor)method.Invoke(null, null);
             Assert.AreEqual(1, result.IntProperty);
             Assert.AreEqual("foo", result.StringProperty);
@@ -512,7 +520,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateStruct()
         {
-            var method = CreateMethod(block => block.Return(typeof(Struct).New()));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(Struct)).New()));
             var result = method.Invoke(null, null);
             Assert.IsTrue(result is Struct);
         }
@@ -524,7 +532,11 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InstantiateStructWithConstructor()
         {
-            var method = CreateMethod(block => block.Return(typeof(StructWithConstructor).GetConstructors()[0].New("foo")));
+            var method = CreateMethod(block =>
+            {
+                EmitConstructor constructor = typeof(StructWithConstructor).GetConstructors()[0];
+                block.Return(constructor.New("foo"));
+            });
             var result = (StructWithConstructor)method.Invoke(null, null);
             Assert.AreEqual("foo", result.StringProperty);
         }
@@ -542,7 +554,11 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void InvokeStaticMethod()
         {
-            var method = CreateMethod(block => block.Return(typeof(StaticMethodClass).GetMethod("Mirror").Call("foo")));
+            var method = CreateMethod(block =>
+            {
+                EmitMethod methodInfo = typeof(StaticMethodClass).GetMethod("Mirror");
+                block.Return(methodInfo.Call("foo"));
+            });
             var result = (string)method.Invoke(null, null);
             Assert.AreEqual("foo", result);
         }
@@ -561,8 +577,8 @@ namespace SexyEmit.Tests.Reflection
             var x = 5;
             var y = +x;
 
-            var type = typeof(InstanceMethodClass);
-            var method = CreateMethod(block => block.Return(type.New().Call(type.GetMethod("Mirror"), "foo")));
+            EmitType type = typeof(InstanceMethodClass);
+            var method = CreateMethod(block => block.Return(type.New().Call((EmitMethod)type.Members.Single(o => o.Name == "Mirror"), "foo")));
             var result = (string)method.Invoke(null, null);
             Assert.AreEqual("foo", result);            
         }
@@ -610,7 +626,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void PreIncrement()
         {
-            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            EmitMethod tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
             var method = CreateMethod(block =>
             {
                 var variable = block.Declare(typeof(int));
@@ -625,7 +641,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void PreDecrement()
         {
-            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            EmitMethod tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
             var method = CreateMethod(block =>
             {
                 var variable = block.Declare(typeof(int));
@@ -640,7 +656,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void PostIncrement()
         {
-            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            EmitMethod tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
             var method = CreateMethod(block =>
             {
                 var variable = block.Declare(typeof(int));
@@ -655,7 +671,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void PostDecrement()
         {
-            var tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
+            EmitMethod tupleMethod = typeof(Tuple).GetMethods().Where(x => x.GetGenericArguments().Length == 2).Single().MakeGenericMethod(typeof(int), typeof(int));
             var method = CreateMethod(block =>
             {
                 var variable = block.Declare(typeof(int));
@@ -753,7 +769,7 @@ namespace SexyEmit.Tests.Reflection
             {
                 var otherVariable = block.Declare(typeof(int));
                 block.Express(otherVariable.Assign(EmitAst.Literal(1)));
-                var variable = EmitAst.Declare(new ReflectionType(typeof(int)));
+                var variable = EmitAst.Declare(typeof(int));
                 block.Statements.Add(EmitAst.For(variable, EmitAst.LessThan(variable, EmitAst.Literal(5)), variable.AddAssign(1).Express(), otherVariable.AddAssign(1).Express()));
                 block.Return(otherVariable);
             });
@@ -830,7 +846,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void NewSingleDimensionArray()
         {
-            var method = CreateMethod(block => block.Return(typeof(string).NewArray(5)));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(string)).NewArray(5)));
             var result = (string[])method.Invoke(null, null);
             Assert.AreEqual(5, result.Length);
         }
@@ -838,7 +854,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void NewTwoDimensionalArray()
         {
-            var method = CreateMethod(block => block.Return(typeof(string).NewArray(5, 4)));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(string)).NewArray(5, 4)));
             var result = (string[,])method.Invoke(null, null);
             Assert.AreEqual(4, result.GetUpperBound(0));
             Assert.AreEqual(3, result.GetUpperBound(1));
@@ -847,7 +863,7 @@ namespace SexyEmit.Tests.Reflection
         [Test]
         public void SingleDimensionArrayInitializer()
         {
-            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(5, 4)));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(int)).NewArrayFrom(5, 4)));
             var result = (int[])method.Invoke(null, null);
             Assert.AreEqual(5, result[0]);
             Assert.AreEqual(4, result[1]);
@@ -862,7 +878,7 @@ namespace SexyEmit.Tests.Reflection
             Assert.AreEqual(3, source[1, 0]);
             Assert.AreEqual(4, source[1, 1]);
 
-            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(source)));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(int)).NewArrayFrom(source)));
             var result = (int[,])method.Invoke(null, null);
             Assert.AreEqual(1, result[0, 0]);
             Assert.AreEqual(2, result[0, 1]);
@@ -883,7 +899,7 @@ namespace SexyEmit.Tests.Reflection
             Assert.AreEqual(7, source[1, 1, 0]);
             Assert.AreEqual(8, source[1, 1, 1]);
 
-            var method = CreateMethod(block => block.Return(typeof(int).NewArrayFrom(source)));
+            var method = CreateMethod(block => block.Return(((EmitType)typeof(int)).NewArrayFrom(source)));
             var result = (int[,,])method.Invoke(null, null);
             Assert.AreEqual(1, result[0, 0, 0]);
             Assert.AreEqual(2, result[0, 0, 1]);

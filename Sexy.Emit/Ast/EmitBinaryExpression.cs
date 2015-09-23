@@ -17,7 +17,7 @@ namespace Sexy.Emit.Ast
             Right = right;
         }
 
-        public override void Compile(EmitCompilerContext context, IEmitIl il)
+        public override void Compile(EmitCompilerContext context, EmitIl il)
         {
             switch (Operator)
             {
@@ -170,7 +170,7 @@ namespace Sexy.Emit.Ast
             }            
         }
 
-        public override IEmitType GetType(IEmitTypeSystem typeSystem)
+        public override EmitType GetType(IEmitTypeSystem typeSystem)
         {
             if (IsOperatorComparison())
                 return typeSystem.GetType(typeof(bool));
